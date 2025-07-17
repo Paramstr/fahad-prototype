@@ -298,12 +298,13 @@ export default function NotaryAIHome() {
           </Link>
 
           {/* Speak to Notary Card - Enhanced Mesh Gradient Design */}
-          <motion.div 
-            className="group relative overflow-hidden rounded-2xl cursor-pointer"
-            whileHover={{ scale: 1.02, y: -12 }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
+          <Link href="/speak-to-notary">
+            <motion.div 
+              className="group relative overflow-hidden rounded-2xl cursor-pointer"
+              whileHover={{ scale: 1.02, y: -12 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+            >
             {/* Base Dark Foundation */}
             <div className="absolute inset-0 bg-midnight-900"></div>
             
@@ -404,7 +405,8 @@ export default function NotaryAIHome() {
             {/* Enhanced Shadow and Border */}
             <div className="absolute inset-0 rounded-2xl shadow-xl group-hover:shadow-2xl transition-shadow duration-500"></div>
             <div className="absolute inset-0 rounded-2xl ring-1 ring-white/10 group-hover:ring-white/20 transition-all duration-500"></div>
-          </motion.div>
+            </motion.div>
+          </Link>
         </motion.div>
 
         {/* Activity Section */}
