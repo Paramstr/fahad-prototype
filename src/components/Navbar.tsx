@@ -1,19 +1,36 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 export default function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedMode, setSelectedMode] = useState('Individual');
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
+  const pathname = usePathname();
+
+  // Update selected mode based on current route
+  useEffect(() => {
+    if (pathname?.startsWith('/corporate')) {
+      setSelectedMode('Corporate');
+    } else {
+      setSelectedMode('Individual');
+    }
+  }, [pathname]);
 
   const handleModeChange = (mode: string) => {
     setSelectedMode(mode);
     setIsDropdownOpen(false);
+    
+    // Navigate to appropriate homepage based on mode
+    if (mode === 'Corporate') {
+      router.push('/corporate');
+    } else {
+      router.push('/');
+    }
   };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -26,7 +43,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="gradient-brand border-b border-brand-200 sticky top-0 z-50 shadow-lg"
+    <nav className={`${selectedMode === 'Corporate' ? 'gradient-brand-corporate' : 'gradient-brand'} border-b border-brand-200 sticky top-0 z-50 shadow-lg`}
     >
       <div className="max-w-full mx-auto px-6 sm:px-8 lg:px-12">
         <div className="grid grid-cols-3 items-center h-16">
@@ -34,7 +51,7 @@ export default function Navbar() {
           {/* Left Section: Logo, Name, and Mode Dropdown */}
           <div className="flex items-center space-x-6">
             {/* Logo and Company Name */}
-            <Link href="/" className="flex items-center space-x-4">
+            <Link href={selectedMode === 'Corporate' ? '/corporate' : '/'} className="flex items-center space-x-4">
               <div className="flex-shrink-0">
                 <motion.div
                   whileHover={{ scale: 1.05 }}

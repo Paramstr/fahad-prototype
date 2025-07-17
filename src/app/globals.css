@@ -626,6 +626,10 @@
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
   }
   
+  .gradient-brand-corporate {
+    background: linear-gradient(135deg, var(--color-brand-800) 0%, var(--color-brand-900) 100%);
+  }
+
   .gradient-secondary {
     background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-hover) 100%);
   }
