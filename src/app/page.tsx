@@ -265,8 +265,8 @@ export default function NotaryAIHome() {
                     </svg>
                   </motion.div>
                   <motion.div 
-                    className="opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center space-x-3 text-sm text-spring-300 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20"
-                    initial={{ x: 20 }}
+                    className="opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center space-x-1 text-xs text-spring-300 bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20 absolute bottom-6 right-6"
+                    initial={{ x: 0 }}
                     whileHover={{ x: 0 }}
                   >
                     <span className="font-medium">Start now</span>
@@ -283,16 +283,7 @@ export default function NotaryAIHome() {
                   Complete legalisation service for international use.
                 </p>
                 
-                <motion.div 
-                  className="flex items-center space-x-2 text-sm text-spring-300/80 group-hover:text-spring-200 transition-colors duration-400"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileHover={{ opacity: 1, y: 0 }}
-                >
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                  <span className="font-medium">Get started with document attestation</span>
-                </motion.div>
+
               </div>
               
               {/* Enhanced Shadow and Border */}
@@ -364,7 +355,7 @@ export default function NotaryAIHome() {
               <div className="absolute inset-0 shadow-inner"></div>
               
               {/* Content Container with Enhanced Styling */}
-              <div className="relative z-10 p-8 border border-brand-400/30 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/5 via-white/2 to-transparent">
+              <div className="min-h-[21rem] relative z-10 p-8 border border-brand-400/30 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/5 via-white/2 to-transparent">
                 <div className="flex items-start justify-between mb-6">
                   <motion.div 
                     className="p-4 bg-gradient-to-br from-white/20 via-white/15 to-white/10 backdrop-blur-sm rounded-xl shadow-lg border border-white/20"
@@ -376,8 +367,8 @@ export default function NotaryAIHome() {
                     </svg>
                   </motion.div>
                   <motion.div 
-                    className="opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center space-x-3 text-sm text-spring-300 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20"
-                    initial={{ x: 20 }}
+                    className="opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center space-x-1 text-xs text-spring-300 bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20 absolute bottom-6 right-6"
+                    initial={{ x: 0 }}
                     whileHover={{ x: 0 }}
                   >
                     <span className="font-medium">Start now</span>
@@ -394,16 +385,7 @@ export default function NotaryAIHome() {
                   Create or certify a new document with a UAE notary.
                 </p>
                 
-                <motion.div 
-                  className="flex items-center space-x-2 text-sm text-spring-300/80 group-hover:text-spring-200 transition-colors duration-400"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileHover={{ opacity: 1, y: 0 }}
-                >
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                  <span className="font-medium">Get started with document notarization</span>
-                </motion.div>
+
               </div>
               
               {/* Enhanced Shadow and Border */}
@@ -487,8 +469,8 @@ export default function NotaryAIHome() {
                   </svg>
                 </motion.div>
                 <motion.div 
-                  className="opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center space-x-3 text-sm text-spring-300 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20"
-                  initial={{ x: 20 }}
+                  className="opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center space-x-1 text-xs text-spring-300 bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20 absolute bottom-6 right-6"
+                  initial={{ x: 0 }}
                   whileHover={{ x: 0 }}
                 >
                   <span className="font-medium">Connect now</span>
@@ -505,16 +487,7 @@ export default function NotaryAIHome() {
                 Get expert legal advice and book consultations.
               </p>
               
-              <motion.div 
-                className="flex items-center space-x-2 text-sm text-spring-300/80 group-hover:text-spring-200 transition-colors duration-400"
-                initial={{ opacity: 0, y: 10 }}
-                whileHover={{ opacity: 1, y: 0 }}
-              >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-                <span className="font-medium">Connect with certified notaries</span>
-              </motion.div>
+
             </div>
             
             {/* Enhanced Shadow and Border */}
@@ -564,12 +537,13 @@ export default function NotaryAIHome() {
                 <motion.div
                   key={activity.id}
                   layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                  className={`card p-6 transition-all duration-200 relative overflow-hidden cursor-pointer hover:shadow-lg ${
-                    activity.documentType === 'attestation' ? 'border-amber-300' : 'border-green-300'
+                  initial={{ opacity: 0, y: 20, boxShadow: '0 0 0 rgba(0,0,0,0)' }}
+                  animate={{ opacity: 1, y: 0, boxShadow: '0 1px 4px rgba(0,31,63,0.04)' }}
+                  whileHover={{ boxShadow: '0 6px 12px rgba(0,31,63,0.08)' }}
+                  exit={{ opacity: 0, y: -20, boxShadow: '0 0 0 rgba(0,0,0,0)' }}
+                  transition={{ duration: 0.1, ease: 'easeOut' }}
+                  className={`card p-6 transition-all duration-200 relative overflow-hidden cursor-pointer ${
+                    activity.documentType === 'attestation' ? 'border-amber-300' : 'border-green-900/20'
                   }`}
                   onClick={() => setSelectedActivity(activity)}
                 >

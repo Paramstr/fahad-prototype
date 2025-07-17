@@ -749,12 +749,13 @@ const AIChatStep = ({ onBack }: { onBack: () => void }) => {
 
   const generateAIResponse = async (question: string): Promise<string> => {
     try {
-      const response = await fetch('/api/ai/chat', {
+      const response = await fetch('/api/gpt', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          type: 'chat',
           message: question,
           conversationHistory: chatMessages.map(msg => ({
             role: msg.type === 'user' ? 'user' : 'assistant',
@@ -828,12 +829,12 @@ const AIChatStep = ({ onBack }: { onBack: () => void }) => {
                     className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${
                       msg.type === 'user'
                         ? 'bg-brand-600 text-white'
-                        : 'bg-gray-100 text-midnight-900'
+                        : 'bg-gray-200 text-midnight-900'
                     }`}
                   >
-                    <p className="text-sm">{msg.message}</p>
+                    <p className={`text-sm ${msg.type === 'user' ? 'text-white' : 'text-midnight-900'}`}>{msg.message}</p>
                     <p className={`text-xs mt-1 ${
-                      msg.type === 'user' ? 'text-brand-100' : 'text-midnight-500'
+                      msg.type === 'user' ? 'text-white opacity-75' : 'text-midnight-600'
                     }`}>
                       {msg.timestamp.toLocaleTimeString()}
                     </p>
@@ -852,11 +853,11 @@ const AIChatStep = ({ onBack }: { onBack: () => void }) => {
                 onChange={(e) => setCustomMessage(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage(customMessage)}
                 placeholder="Type your legal question..."
-                className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600 focus:border-transparent"
+                className="flex-1 px-4 py-3 bg-white border border-gray-200 rounded-xl shadow-sm transition-all duration-300 focus:bg-brand-50 focus:border-brand-600 focus:ring-4 focus:ring-brand-600/30 focus:outline-none"
               />
               <button
                 onClick={() => handleSendMessage(customMessage)}
-                className="px-6 py-3 bg-brand-600 text-white rounded-xl hover:bg-brand-700 transition-colors"
+                className="shrink-0 px-5 py-3 bg-brand-600 text-white rounded-xl transition-all duration-300 hover:bg-brand-700 focus:ring-4 focus:ring-brand-600/30 hover:-translate-y-0.5 hover:shadow-lg"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />

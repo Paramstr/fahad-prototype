@@ -22,6 +22,8 @@ export default function AttestPage() {
   const [uploadedFile, setUploadedFile] = useState<UploadedFile | null>(null);
   const [documentType, setDocumentType] = useState<string>('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisProgress, setAnalysisProgress] = useState('Uploading...');
+  const [analysisResults, setAnalysisResults] = useState<any>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [destinationCountry, setDestinationCountry] = useState<'UAE' | 'GCC' | 'Worldwide'>('UAE');
   const [needsTranslation, setNeedsTranslation] = useState(false);
@@ -33,30 +35,55 @@ export default function AttestPage() {
 
   const analyzeDocument = async (fileName: string, fileType: string, content?: string) => {
     try {
-      const response = await fetch('/api/ai/analyze-document', {
+      console.log('Analyzing document:', { fileName, fileType, contentLength: content?.length || 0 });
+      
+      if (!content) {
+        throw new Error('No file content provided');
+      }
+
+      // Progress step 1: Uploading
+      setAnalysisProgress('Uploading...');
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      // Progress step 2: Analyzing
+      setAnalysisProgress('Analyzing document...');
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Use consolidated GPT API for document analysis
+      const response = await fetch('/api/gpt', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          type: 'document-analysis',
           fileName,
           fileType,
-          documentContent: content
+          fileBase64: content
         })
       });
 
       if (!response.ok) {
-        throw new Error(`Analysis failed: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        console.error('API Error:', errorData);
+        throw new Error(`Analysis failed: ${response.status} - ${errorData.error || 'Unknown error'}`);
       }
 
+      // Progress step 3: Processing results
+      setAnalysisProgress('Processing results...');
       const data = await response.json();
       const analysis = data.analysis;
       
       // Update state with AI analysis results
       setDocumentType(analysis.documentType || 'Unknown Document');
+      setAnalysisResults(analysis);
       
       // Log analysis for debugging
       console.log('AI Analysis Results:', analysis);
+      
+      // Progress step 4: Complete
+      setAnalysisProgress('Complete!');
+      await new Promise(resolve => setTimeout(resolve, 800));
       
       return analysis;
     } catch (error) {
@@ -98,38 +125,37 @@ export default function AttestPage() {
       type: file.type,
     };
 
-    if (file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        uploadedFile.preview = e.target?.result as string;
-        setUploadedFile(uploadedFile);
-      };
-      reader.readAsDataURL(file);
-    } else if (file.type === 'text/plain' || file.type === 'application/pdf') {
-      // Try to read text content for AI analysis
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        uploadedFile.content = e.target?.result as string;
-        setUploadedFile(uploadedFile);
-      };
-      reader.readAsText(file);
-    } else {
+    // Read all files as base64 for vision API
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const base64Result = e.target?.result as string;
+      uploadedFile.content = base64Result; // Store base64 for AI analysis
+      
+      // For images, also use as preview
+      if (file.type.startsWith('image/')) {
+        uploadedFile.preview = base64Result;
+      }
+      
       setUploadedFile(uploadedFile);
-    }
-
-    // Start AI analysis
-    setIsAnalyzing(true);
-    
-    // Analyze document with AI
-    analyzeDocument(file.name, file.type, uploadedFile.content).then(() => {
-      setCurrentStep(2);
-    }).catch((error) => {
-      console.error('Document analysis failed:', error);
-      setDocumentType('Unknown Document');
-      setCurrentStep(2);
-    }).finally(() => {
-      setIsAnalyzing(false);
-    });
+      
+      // Start AI analysis AFTER file is loaded
+      setIsAnalyzing(true);
+      
+      // Analyze document with AI
+      analyzeDocument(file.name, file.type, base64Result).then(() => {
+        setCurrentStep(2);
+      }).catch((error) => {
+        console.error('Document analysis failed:', error);
+        setDocumentType('Unknown Document');
+        setAnalysisProgress('Analysis failed');
+        setTimeout(() => {
+          setCurrentStep(2);
+        }, 1000);
+      }).finally(() => {
+        setIsAnalyzing(false);
+      });
+    };
+    reader.readAsDataURL(file);
   }, []);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -315,7 +341,9 @@ export default function AttestPage() {
                       >
                         Choose File
                       </button>
-                      <p className="text-sm text-gray-500 mt-4">Supports PDF, image, or Word files</p>
+                      <p className="text-sm text-gray-500 mt-4">
+                        Supported formats: PDF, JPG, JPEG, PNG, GIF, WEBP
+                      </p>
                     </div>
                   )}
 
@@ -337,8 +365,14 @@ export default function AttestPage() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                         </motion.svg>
                       </motion.div>
-                      <h3 className="text-xl font-semibold text-midnight-900 mb-2">Analyzing document...</h3>
-                      <p className="text-midnight-600">Our AI is reading your file</p>
+                      <h3 className="text-xl font-semibold text-midnight-900 mb-2">{analysisProgress}</h3>
+                      <p className="text-midnight-600">
+                        {analysisProgress === 'Uploading...' && 'Preparing your document...'}
+                        {analysisProgress === 'Analyzing document...' && 'Our AI is reading your file'}
+                        {analysisProgress === 'Processing results...' && 'Generating recommendations...'}
+                        {analysisProgress === 'Complete!' && 'Analysis complete!'}
+                        {analysisProgress === 'Analysis failed' && 'Please try again'}
+                      </p>
                     </div>
                   )}
 
@@ -364,7 +398,7 @@ export default function AttestPage() {
                   <input
                     ref={fileInputRef}
                     type="file"
-                    accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                    accept=".pdf,.jpg,.jpeg,.png,.gif,.webp,image/*"
                     onChange={handleFileSelect}
                     className="hidden"
                   />
@@ -425,37 +459,91 @@ export default function AttestPage() {
                     </div>
                     <div className="flex items-center justify-between p-4 bg-praxeti-300 rounded-lg">
                       <span className="text-midnight-900 font-medium">Language:</span>
-                      <span className="text-midnight-900">English</span>
+                      <span className="text-midnight-900">{analysisResults?.language || 'English'}</span>
                     </div>
                     <div className="flex items-center justify-between p-4 bg-praxeti-300 rounded-lg">
                       <span className="text-midnight-900 font-medium">Confidence Level:</span>
-                      <span className="text-brand-600 font-medium">95%</span>
+                      <span className="text-brand-600 font-medium">{analysisResults?.confidence || 85}%</span>
+                    </div>
+                    <div className="flex items-center justify-between p-4 bg-praxeti-300 rounded-lg">
+                      <span className="text-midnight-900 font-medium">Quality:</span>
+                      <span className={`capitalize font-medium ${
+                        analysisResults?.quality === 'good' ? 'text-green-600' : 
+                        analysisResults?.quality === 'fair' ? 'text-yellow-600' : 
+                        'text-red-600'
+                      }`}>
+                        {analysisResults?.quality || 'Fair'}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between p-4 bg-praxeti-300 rounded-lg">
+                      <span className="text-midnight-900 font-medium">Estimated Time:</span>
+                      <span className="text-midnight-900">{analysisResults?.estimatedTime || '5-7 business days'}</span>
                     </div>
                   </div>
 
-                  {/* AI Assistant Panel - Feature Flags */}
+                  {/* AI Assistant Recommendations */}
                   <div className="mt-6 space-y-4">
                     <h4 className="font-medium text-midnight-900">AI Assistant Recommendations:</h4>
                     
-                    <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
-                      <div className="flex items-start space-x-3">
-                        <svg className="h-5 w-5 text-amber-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                        </svg>
-                        <div className="flex-1">
-                          <p className="text-sm font-medium text-amber-800">Missing Arabic translation</p>
-                          <p className="text-xs text-amber-600 mt-1">Your document may need Arabic translation for UAE attestation</p>
-                          <button 
-                            onClick={() => setNeedsTranslation(true)}
-                            className="mt-2 text-xs px-3 py-1 bg-amber-600 text-white rounded-full hover:bg-amber-700"
-                          >
-                            Translate for AED 120
-                          </button>
+                    {/* Translation Recommendation */}
+                    {analysisResults?.needsArabicTranslation && (
+                      <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                        <div className="flex items-start space-x-3">
+                          <svg className="h-5 w-5 text-amber-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                          </svg>
+                          <div className="flex-1">
+                            <p className="text-sm font-medium text-amber-800">Arabic translation required</p>
+                            <p className="text-xs text-amber-600 mt-1">Your document needs Arabic translation for UAE attestation</p>
+                            <button 
+                              onClick={() => setNeedsTranslation(true)}
+                              className="mt-2 text-xs px-3 py-1 bg-amber-600 text-white rounded-full hover:bg-amber-700"
+                            >
+                              Add Translation - AED 120
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    )}
 
-                    <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    {/* General Recommendations */}
+                    {analysisResults?.recommendations && analysisResults.recommendations.length > 0 && (
+                      <div className="space-y-3">
+                        {analysisResults.recommendations.map((rec: string, index: number) => (
+                          <div key={index} className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                            <div className="flex items-start space-x-3">
+                              <svg className="h-5 w-5 text-blue-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              <div className="flex-1">
+                                <p className="text-sm font-medium text-blue-800">{rec}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Notarization Steps */}
+                    {analysisResults?.notarizationSteps && analysisResults.notarizationSteps.length > 0 && (
+                      <div className="mt-4">
+                        <h5 className="font-medium text-midnight-900 mb-2">Notarization Steps:</h5>
+                        <div className="space-y-2">
+                          {analysisResults.notarizationSteps.map((step: string, index: number) => (
+                            <div key={index} className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                              <div className="flex items-start space-x-3">
+                                <span className="inline-flex items-center justify-center w-5 h-5 bg-green-600 text-white text-xs rounded-full mt-0.5">
+                                  {index + 1}
+                                </span>
+                                <p className="text-sm text-green-800">{step}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
                       <div className="flex items-start space-x-3">
                         <svg className="h-5 w-5 text-blue-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
