@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import ProgressBar from '@/components/ProgressBar';
+import AiAssistant from '@/components/AiAssistant';
 
 interface UploadedFile {
   file: File;
@@ -140,6 +141,12 @@ export default function NotarizePage() {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
+  const detectDocCategory = () => {
+    // Stubbed function for document category detection
+    const categories = ['Birth Certificate', 'Power of Attorney', 'Contract', 'Court Order', 'Academic Certificate'];
+    return categories[Math.floor(Math.random() * categories.length)];
+  };
+
   const handleFileUpload = useCallback((file: File) => {
     const uploadedFile: UploadedFile = {
       file,
@@ -165,7 +172,8 @@ export default function NotarizePage() {
       setIsAnalyzing(true);
       setTimeout(() => {
         setIsAnalyzing(false);
-        setDocumentType('Birth Certificate'); // Mock AI detection
+        const detectedCategory = detectDocCategory();
+        setDocumentType(detectedCategory); // Use AI detection
         setCurrentStep(2);
       }, 2000);
     }, 500);
@@ -228,7 +236,8 @@ export default function NotarizePage() {
         status: 'Pending'
       })),
       totalCost: services.reduce((sum, s) => sum + s.cost, 0),
-      userRequest: userRequest
+      userRequest: userRequest,
+      documentType: 'notarization' as const
     };
 
     // Get existing activities from localStorage
@@ -279,7 +288,7 @@ export default function NotarizePage() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 py-12">
+      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12">
         <AnimatePresence mode="wait">
           {/* Step 1: Upload Document */}
           {currentStep === 1 && (
@@ -410,81 +419,104 @@ export default function NotarizePage() {
                 <p className="text-lg text-midnight-600">Here&apos;s what we found</p>
               </div>
 
-              <div className="max-w-2xl mx-auto ">
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                  className="bg-white rounded-xl border border-gray-200 p-8 mb-8 card"
-                >
-                  <div className="flex items-center space-x-4 mb-6">
-                    <div className="p-3 bg-brand-600 rounded-lg">
-                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-midnight-900">Document Analysis</h3>
-                      <p className="text-midnight-600">AI-powered document recognition</p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between p-4 bg-praxeti-300 rounded-lg">
-                      <span className="text-midnight-900 font-medium">Document Type:</span>
-                      <span className="px-3 py-1 bg-brand-600 text-white rounded-full text-sm font-medium">
-                        {documentType}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between p-4 bg-praxeti-300 rounded-lg">
-                      <span className="text-midnight-900 font-medium">Confidence Level:</span>
-                      <span className="text-brand-600 font-medium">95%</span>
-                    </div>
-                    <div className="flex items-center justify-between p-4 bg-praxeti-300 rounded-lg">
-                      <span className="text-midnight-900 font-medium">Language:</span>
-                      <span className="text-midnight-900">English</span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                  className="bg-white rounded-xl border border-gray-200 p-6 card"
-                >
-                  <h4 className="font-medium text-midnight-900 mb-3">Is this correct?</h4>
-                  <div className="space-y-2">
-                    <select
-                      value={documentType}
-                      onChange={(e) => setDocumentType(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-midnight-900 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
-                    >
-                      {documentTypes.map(type => (
-                        <option key={type} value={type}>{type}</option>
-                      ))}
-                    </select>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.7 }}
-                  className="flex justify-center mt-8"
-                >
-                  <motion.button
-                    onClick={nextStep}
-                    className="px-8 py-3 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition-all duration-200 font-medium flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+              <div className="flex gap-8">
+                {/* Main content */}
+                <div className="flex-1 max-w-2xl">
+                  <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="bg-white rounded-xl border border-gray-200 p-8 mb-8 card"
                   >
-                    <span>Continue</span>
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </motion.button>
-                </motion.div>
+                    <div className="flex items-center space-x-4 mb-6">
+                      <div className="p-3 bg-brand-600 rounded-lg">
+                        <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-semibold text-midnight-900">Document Analysis</h3>
+                        <p className="text-midnight-600">AI-powered document recognition</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between p-4 bg-praxeti-300 rounded-lg">
+                        <span className="text-midnight-900 font-medium">Document Type:</span>
+                        <span className="px-3 py-1 bg-brand-600 text-white rounded-full text-sm font-medium">
+                          {documentType}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between p-4 bg-praxeti-300 rounded-lg">
+                        <span className="text-midnight-900 font-medium">Confidence Level:</span>
+                        <span className="text-brand-600 font-medium">95%</span>
+                      </div>
+                      <div className="flex items-center justify-between p-4 bg-praxeti-300 rounded-lg">
+                        <span className="text-midnight-900 font-medium">Language:</span>
+                        <span className="text-midnight-900">English</span>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                    className="bg-white rounded-xl border border-gray-200 p-6 card"
+                  >
+                    <h4 className="font-medium text-midnight-900 mb-3">Is this correct?</h4>
+                    <div className="space-y-2">
+                      <select
+                        value={documentType}
+                        onChange={(e) => setDocumentType(e.target.value)}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-midnight-900 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
+                      >
+                        {documentTypes.map(type => (
+                          <option key={type} value={type}>{type}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.7 }}
+                    className="flex justify-center mt-8"
+                  >
+                    <motion.button
+                      onClick={nextStep}
+                      className="px-8 py-3 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition-all duration-200 font-medium flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <span>Continue</span>
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </motion.button>
+                  </motion.div>
+                </div>
+
+                {/* AI Assistant Sidebar */}
+                <div className="shrink-0">
+                  <AiAssistant 
+                    issues={[
+                      {
+                        type: 'warning',
+                        text: 'Arabic counterpart page missing.',
+                        fixLabel: 'Auto-translate',
+                        onFix: () => console.log('TODO: Auto-translate')
+                      },
+                      {
+                        type: 'error',
+                        text: 'Signature block empty on page 4.',
+                        fixLabel: 'Add signature block',
+                        onFix: () => console.log('TODO: Add signature block')
+                      }
+                    ]}
+                  />
+                </div>
               </div>
             </motion.div>
           )}

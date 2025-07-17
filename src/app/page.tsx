@@ -23,6 +23,7 @@ interface Activity {
   services: ActivityService[];
   totalCost: number;
   userRequest: string;
+  documentType?: 'notarization' | 'attestation';
 }
 
 export default function NotaryAIHome() {
@@ -53,7 +54,8 @@ export default function NotaryAIHome() {
             { name: 'Embassy Legalization', cost: 60, duration: '3-5 days', status: 'Pending' as const }
           ],
           totalCost: 160,
-          userRequest: 'Translate birth certificate and get it notarized for use in Canada'
+          userRequest: 'Translate birth certificate and get it notarized for use in Canada',
+          documentType: 'attestation' as const
         },
         {
           id: 2,
@@ -68,7 +70,8 @@ export default function NotaryAIHome() {
             { name: 'Ministry of Justice Notarization', cost: 25, duration: '1 day', status: 'Pending' as const }
           ],
           totalCost: 65,
-          userRequest: 'Translate power of attorney document to English'
+          userRequest: 'Translate power of attorney document to English',
+          documentType: 'notarization' as const
         },
         {
           id: 3,
@@ -82,7 +85,8 @@ export default function NotaryAIHome() {
             { name: 'Document verification', cost: 30, duration: '1 day', status: 'In Progress' as const }
           ],
           totalCost: 30,
-          userRequest: 'Verify contract authenticity'
+          userRequest: 'Verify contract authenticity',
+          documentType: 'notarization' as const
         }
       ];
       setActivities(defaultActivities);
@@ -175,19 +179,130 @@ export default function NotaryAIHome() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
-          <h1 className="text-4xl font-medium text-midnight-900 mb-2">Welcome, Farhad.</h1>
+          <h1 className="text-4xl font-medium text-midnight-900 mb-2">Welcome, Fahad.</h1>
           <p className="text-lg text-midnight-600">How can we help today?</p>
         </motion.div>
 
         {/* Primary Action Cards - Main CTA buttons */}
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16"
+          className="grid gap-6 mb-16" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
         >
+          {/* Attest Document Card - Enhanced Mesh Gradient Design */}
+          <Link href="/attest" aria-label="Start attestation wizard">
+            <motion.div 
+              className="group relative overflow-hidden rounded-2xl cursor-pointer"
+              whileHover={{ scale: 1.02, y: -12 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+            >
+              {/* Base Dark Foundation */}
+              <div className="absolute inset-0 bg-midnight-900"></div>
+              
+              {/* Mesh-like Gradient Layer 1 - Teal Primary Flow */}
+              <div className="absolute inset-0 opacity-80">
+                <div className="absolute inset-0 bg-gradient-to-br from-teal-800 via-midnight-800 to-teal-900" style={{ background: 'linear-gradient(135deg, #047857 0%, #001f3f 50%, #065f46 100%)' }}></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-teal-600/60 via-transparent to-teal-600/40" style={{ background: 'linear-gradient(45deg, rgba(4, 120, 87, 0.6) 0%, transparent 50%, rgba(4, 120, 87, 0.4) 100%)' }}></div>
+              </div>
+              
+              {/* Mesh-like Gradient Layer 2 - Radial Depth */}
+              <div className="absolute inset-0 opacity-70">
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-radial from-teal-500/40 via-transparent to-transparent" style={{background: 'radial-gradient(circle at 30% 20%, rgba(4, 120, 87, 0.4) 0%, transparent 50%)'}}></div>
+                <div className="absolute top-0 right-0 w-full h-full bg-gradient-radial from-teal-500/30 via-transparent to-transparent" style={{background: 'radial-gradient(circle at 70% 30%, rgba(6, 95, 70, 0.3) 0%, transparent 60%)'}}></div>
+                <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-radial from-teal-700/35 via-transparent to-transparent" style={{background: 'radial-gradient(circle at 20% 80%, rgba(4, 120, 87, 0.35) 0%, transparent 45%)'}}></div>
+                {/* Subtle accent highlight (spring) */}
+                <div className="absolute inset-0 w-full h-full" style={{background:'radial-gradient(circle at 50% 50%, rgba(219,230,76,0.22) 0%, transparent 65%)'}}></div>
+              </div>
+              
+              {/* Mesh-like Gradient Layer 3 - Organic Flow */}
+              <div className="absolute inset-0 opacity-60">
+                <div className="absolute inset-0 bg-gradient-conic from-teal-600/30 via-midnight-700/20 to-teal-800/40" style={{background: 'conic-gradient(from 45deg at 60% 40%, rgba(4, 120, 87, 0.3) 0deg, rgba(0, 31, 63, 0.2) 120deg, rgba(6, 95, 70, 0.4) 240deg, rgba(4, 120, 87, 0.3) 360deg)'}}></div>
+              </div>
+              
+              {/* Mesh-like Gradient Layer 4 - Subtle Variations */}
+              <div className="absolute inset-0 opacity-50">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-teal-500/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-midnight-900/60 via-transparent to-teal-600/20"></div>
+                <div className="absolute inset-0 bg-gradient-to-bl from-transparent via-teal-500/15 to-midnight-900/30"></div>
+              </div>
+              
+              {/* Enhanced Pattern Overlays */}
+              <div className="absolute inset-0 opacity-12">
+                <svg className="w-full h-full">
+                  <rect width="100%" height="100%" fill="url(#document-texture)"/>
+                </svg>
+              </div>
+              <div className="absolute inset-0 opacity-6">
+                <svg className="w-full h-full">
+                  <rect width="100%" height="100%" fill="url(#legal-watermark)"/>
+                </svg>
+              </div>
+              
+              {/* Advanced Hover Effects - Mesh Enhancement */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-700">
+                <div className="absolute inset-0 bg-gradient-radial from-teal-400/25 via-transparent to-transparent" style={{background: 'radial-gradient(circle at 50% 50%, rgba(4, 120, 87, 0.25) 0%, transparent 70%)'}}></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-spring-400/15 via-transparent to-teal-500/20"></div>
+              </div>
+              
+              {/* Sophisticated Glow Effects */}
+              <div className="absolute inset-0 bg-gradient-to-r from-teal-400/0 via-teal-400/20 to-teal-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-600"></div>
+              
+              {/* Inner Shadow for Depth */}
+              <div className="absolute inset-0 shadow-inner"></div>
+              
+              {/* Content Container with Enhanced Styling */}
+              <div className="relative z-10 p-8 border border-teal-400/30 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/5 via-white/2 to-transparent">
+                <div className="flex items-start justify-between mb-6">
+                  <motion.div 
+                    className="p-4 bg-gradient-to-br from-white/20 via-white/15 to-white/10 backdrop-blur-sm rounded-xl shadow-lg border border-white/20"
+                    whileHover={{ scale: 1.1, rotate: -3 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <svg className="h-10 w-10 text-spring-400 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </motion.div>
+                  <motion.div 
+                    className="opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center space-x-3 text-sm text-spring-300 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20"
+                    initial={{ x: 20 }}
+                    whileHover={{ x: 0 }}
+                  >
+                    <span className="font-medium">Start now</span>
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </motion.div>
+                </div>
+                
+                <h3 className="text-3xl font-bold text-white mb-4 leading-tight drop-shadow-lg">
+                  Attest a Document
+                </h3>
+                <p className="text-praxeti-300 text-base mb-4 leading-relaxed">
+                  Complete legalisation service for international use.
+                </p>
+                
+                <motion.div 
+                  className="flex items-center space-x-2 text-sm text-spring-300/80 group-hover:text-spring-200 transition-colors duration-400"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileHover={{ opacity: 1, y: 0 }}
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <span className="font-medium">Get started with document attestation</span>
+                </motion.div>
+              </div>
+              
+              {/* Enhanced Shadow and Border */}
+              <div className="absolute inset-0 rounded-2xl shadow-xl group-hover:shadow-2xl transition-shadow duration-500"></div>
+              <div className="absolute inset-0 rounded-2xl ring-1 ring-white/10 group-hover:ring-white/20 transition-all duration-500"></div>
+            </motion.div>
+          </Link>
+
           {/* Notarize Document Card - Enhanced Mesh Gradient Design */}
-          <Link href="/notarize">
+          <Link href="/notarize" aria-label="Start notarization wizard">
             <motion.div 
               className="group relative overflow-hidden rounded-2xl cursor-pointer"
               whileHover={{ scale: 1.02, y: -12 }}
@@ -249,8 +364,8 @@ export default function NotaryAIHome() {
               <div className="absolute inset-0 shadow-inner"></div>
               
               {/* Content Container with Enhanced Styling */}
-              <div className="relative z-10 p-10 border border-brand-400/30 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/5 via-white/2 to-transparent">
-                <div className="flex items-start justify-between mb-8">
+              <div className="relative z-10 p-8 border border-brand-400/30 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/5 via-white/2 to-transparent">
+                <div className="flex items-start justify-between mb-6">
                   <motion.div 
                     className="p-4 bg-gradient-to-br from-white/20 via-white/15 to-white/10 backdrop-blur-sm rounded-xl shadow-lg border border-white/20"
                     whileHover={{ scale: 1.1, rotate: -3 }}
@@ -272,11 +387,11 @@ export default function NotaryAIHome() {
                   </motion.div>
                 </div>
                 
-                <h3 className="text-3xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
+                <h3 className="text-3xl font-bold text-white mb-4 leading-tight drop-shadow-lg">
                   Notarize a Document
                 </h3>
-                <p className="text-praxeti-300 text-xl mb-6 leading-relaxed">
-                  Upload any file, we build the path
+                <p className="text-praxeti-300 text-base mb-4 leading-relaxed">
+                  Create or certify a new document with a UAE notary.
                 </p>
                 
                 <motion.div 
@@ -360,8 +475,8 @@ export default function NotaryAIHome() {
             <div className="absolute inset-0 shadow-inner"></div>
             
             {/* Content Container with Enhanced Styling */}
-            <div className="relative z-10 p-10 border border-nuit-400/30 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/5 via-white/2 to-transparent">
-              <div className="flex items-start justify-between mb-8">
+            <div className="relative z-10 p-8 border border-nuit-400/30 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/5 via-white/2 to-transparent">
+              <div className="flex items-start justify-between mb-6">
                 <motion.div 
                   className="p-4 bg-gradient-to-br from-white/20 via-white/15 to-white/10 backdrop-blur-sm rounded-xl shadow-lg border border-white/20"
                   whileHover={{ scale: 1.1, rotate: -3 }}
@@ -383,11 +498,11 @@ export default function NotaryAIHome() {
                 </motion.div>
               </div>
               
-              <h3 className="text-3xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
+              <h3 className="text-3xl font-bold text-white mb-4 leading-tight drop-shadow-lg">
                 Speak to Notary
               </h3>
-              <p className="text-praxeti-300 text-xl mb-6 leading-relaxed">
-                Get instant help & guidance
+              <p className="text-praxeti-300 text-base mb-4 leading-relaxed">
+                Get expert legal advice and book consultations.
               </p>
               
               <motion.div 
@@ -453,7 +568,9 @@ export default function NotaryAIHome() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3 }}
-                  className="card p-6 transition-all duration-200 relative overflow-hidden cursor-pointer hover:shadow-lg"
+                  className={`card p-6 transition-all duration-200 relative overflow-hidden cursor-pointer hover:shadow-lg ${
+                    activity.documentType === 'attestation' ? 'border-amber-300' : 'border-green-300'
+                  }`}
                   onClick={() => setSelectedActivity(activity)}
                 >
                   {/* Progress bar background */}

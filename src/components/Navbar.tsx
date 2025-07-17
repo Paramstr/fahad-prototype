@@ -3,25 +3,37 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedMode, setSelectedMode] = useState('Individual');
+  const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
 
   const handleModeChange = (mode: string) => {
     setSelectedMode(mode);
     setIsDropdownOpen(false);
   };
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/speak-to-notary?query=${encodeURIComponent(searchQuery)}`);
+    } else {
+      router.push('/speak-to-notary');
+    }
+  };
+
   return (
     <nav className="gradient-brand border-b border-brand-200 sticky top-0 z-50 shadow-lg"
     >
       <div className="max-w-full mx-auto px-6 sm:px-8 lg:px-12">
-        <div className="flex items-center justify-between h-16">
+        <div className="grid grid-cols-3 items-center h-16">
           
-          {/* Left Section: Logo, Name, and Mode Selector */}
-          <div className="flex items-center space-x-12">
-            {/* Logo and Company Name (grouped together) */}
+          {/* Left Section: Logo, Name, and Mode Dropdown */}
+          <div className="flex items-center space-x-6">
+            {/* Logo and Company Name */}
             <Link href="/" className="flex items-center space-x-4">
               <div className="flex-shrink-0">
                 <motion.div
@@ -38,8 +50,8 @@ export default function Navbar() {
               </div>
               <h1 className="text-xl font-semibold text-white">Notary AI</h1>
             </Link>
-            
-            {/* Mode Dropdown (separated with more space) */}
+
+            {/* Mode Dropdown */}
             <div className="relative">
               <motion.button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -105,24 +117,52 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Center Section: Search Bar */}
-          <div className="flex-1 max-w-md mx-16">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Ask anything..."
-                className="w-full pl-10 pr-4 py-2 border border-white/30 rounded-full focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 bg-white/20 backdrop-blur-sm transition-all duration-300 text-white placeholder-white/70"
-              />
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg className="h-5 w-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
+          {/* Center Section: AI Search Bar */}
+          <div className="flex justify-center">
+            <div className="w-full max-w-md">
+              <form onSubmit={handleSearchSubmit} className="relative">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Ask our AI about legal documents..."
+                  className="w-full pl-12 pr-16 py-2 border border-white/30 rounded-full focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 bg-white/20 backdrop-blur-sm transition-all duration-300 text-white placeholder-white/70"
+                />
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <div className="flex items-center space-x-1">
+                    <svg className="h-4 w-4 text-spring-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                    <span className="text-xs text-spring-400 font-medium">AI</span>
+                  </div>
+                </div>
+                <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                  <button
+                    type="submit"
+                    className="p-1 rounded-full bg-white/20 hover:bg-white/30 transition-colors duration-200"
+                  >
+                    <svg className="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
 
-          {/* Right Section: User Profile */}
-          <div className="flex items-center space-x-6">
+          {/* Right Section: Navigation Links and User Profile */}
+          <div className="flex items-center justify-end space-x-6">
+            {/* Navigation Links */}
+            <div className="hidden md:flex items-center space-x-6">
+              <Link href="/pricing" className="text-white/80 hover:text-white transition-colors duration-200 text-sm font-medium">
+                Pricing
+              </Link>
+              <Link href="/about" className="text-white/80 hover:text-white transition-colors duration-200 text-sm font-medium">
+                About
+              </Link>
+            </div>
+
+            {/* Notification Button */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -134,6 +174,7 @@ export default function Navbar() {
               <span className="absolute -top-1 -right-1 h-3 w-3 bg-mantis-600 rounded-full"></span>
             </motion.button>
             
+            {/* User Profile */}
             <div className="flex items-center space-x-3">
               <motion.div 
                 className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
@@ -143,7 +184,7 @@ export default function Navbar() {
                 <span className="text-white text-sm font-medium">F</span>
               </motion.div>
               <div className="text-sm">
-                <div className="font-medium text-white">Farhad</div>
+                <div className="font-medium text-white">Fahad</div>
                 <div className="text-white/80">Law Firm</div>
               </div>
             </div>
