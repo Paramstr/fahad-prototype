@@ -13,6 +13,7 @@ interface UploadedFile {
   size: string;
   type: string;
   preview?: string;
+  content?: string;
 }
 
 
@@ -29,6 +30,40 @@ export default function AttestPage() {
   const [attestPath, setAttestPath] = useState<string[]>(['MoJ']);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+
+  const analyzeDocument = async (fileName: string, fileType: string, content?: string) => {
+    try {
+      const response = await fetch('/api/ai/analyze-document', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fileName,
+          fileType,
+          documentContent: content
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Analysis failed: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const analysis = data.analysis;
+      
+      // Update state with AI analysis results
+      setDocumentType(analysis.documentType || 'Unknown Document');
+      
+      // Log analysis for debugging
+      console.log('AI Analysis Results:', analysis);
+      
+      return analysis;
+    } catch (error) {
+      console.error('Document analysis error:', error);
+      throw error;
+    }
+  };
 
   const steps = [
     { id: 1, title: 'Upload', description: 'Upload your document' },
@@ -70,18 +105,31 @@ export default function AttestPage() {
         setUploadedFile(uploadedFile);
       };
       reader.readAsDataURL(file);
+    } else if (file.type === 'text/plain' || file.type === 'application/pdf') {
+      // Try to read text content for AI analysis
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        uploadedFile.content = e.target?.result as string;
+        setUploadedFile(uploadedFile);
+      };
+      reader.readAsText(file);
     } else {
       setUploadedFile(uploadedFile);
     }
 
-    setTimeout(() => {
-      setIsAnalyzing(true);
-      setTimeout(() => {
-        setIsAnalyzing(false);
-        setDocumentType('Birth Certificate');
-        setCurrentStep(2);
-      }, 2000);
-    }, 500);
+    // Start AI analysis
+    setIsAnalyzing(true);
+    
+    // Analyze document with AI
+    analyzeDocument(file.name, file.type, uploadedFile.content).then(() => {
+      setCurrentStep(2);
+    }).catch((error) => {
+      console.error('Document analysis failed:', error);
+      setDocumentType('Unknown Document');
+      setCurrentStep(2);
+    }).finally(() => {
+      setIsAnalyzing(false);
+    });
   }, []);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {

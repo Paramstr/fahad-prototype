@@ -725,30 +725,54 @@ const AIChatStep = ({ onBack }: { onBack: () => void }) => {
     
     setChatMessages(prev => [...prev, newMessage]);
     
-    // Simulate AI response after a brief delay
-    setTimeout(() => {
+    // Get AI response
+    generateAIResponse(message.trim()).then(aiResponseText => {
       const aiResponse = {
         type: 'ai' as const,
-        message: generateAIResponse(message.trim()),
+        message: aiResponseText,
         timestamp: new Date()
       };
       setChatMessages(prev => [...prev, aiResponse]);
-    }, 1000);
+    }).catch(error => {
+      console.error('Failed to get AI response:', error);
+      const errorResponse = {
+        type: 'ai' as const,
+        message: 'I apologize, but I am temporarily unavailable. Please try again later.',
+        timestamp: new Date()
+      };
+      setChatMessages(prev => [...prev, errorResponse]);
+    });
     
     setCustomMessage('');
     setSelectedQuestion('');
   };
 
-  const generateAIResponse = (question: string): string => {
-    // Simple response simulation - in real app this would connect to AI service
-    const responses = [
-      "Based on UAE legal requirements, here's what you need to know: The attestation process typically involves several steps including notarization, authentication by relevant authorities, and final attestation by UAE embassy or consulate.",
-      "For UAE legal compliance, this document type requires specific authentication. The process usually takes 5-7 business days and involves verification by multiple authorities.",
-      "According to UAE regulations, you'll need to ensure proper documentation and attestation. I recommend consulting with a certified notary for your specific case.",
-      "This is a common requirement for UAE legal processes. The documentation must be properly attested and may require translation by certified translators."
-    ];
-    
-    return responses[Math.floor(Math.random() * responses.length)];
+  const generateAIResponse = async (question: string): Promise<string> => {
+    try {
+      const response = await fetch('/api/ai/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: question,
+          conversationHistory: chatMessages.map(msg => ({
+            role: msg.type === 'user' ? 'user' : 'assistant',
+            content: msg.message
+          }))
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Chat API failed: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.response || 'I apologize, but I could not process your request at this time. Please try again.';
+    } catch (error) {
+      console.error('AI Chat error:', error);
+      return 'I apologize, but I am temporarily unavailable. Please try again later or contact support for assistance.';
+    }
   };
 
   return (
