@@ -112,17 +112,17 @@ Provide 3-5 concise, actionable recommendations for UAE legal compliance and not
     // Build content array with text prompt and all image files
     const content = [
       {
-        type: "text",
+        type: "text" as const,
         text: files.length > 1 ? 
           `${visionPrompt}\n\nThis document has ${files.length} pages. Please analyze all pages together.` : 
           visionPrompt
       },
       // Add all files as image_url entries
       ...files.map(file => ({
-        type: "image_url",
+        type: "image_url" as const,
         image_url: {
           url: file.startsWith('http') ? file : file, // Support both URLs and base64
-          detail: "high" // Use high detail for better accuracy
+          detail: "high" as const // Use high detail for better accuracy
         }
       }))
     ];
