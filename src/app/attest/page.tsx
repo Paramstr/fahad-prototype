@@ -38,6 +38,35 @@ export default function AttestPage() {
   }
   const [analysisResults, setAnalysisResults] = useState<AnalysisResult | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
+
+  // Compress image to reduce size for API
+  const compressImage = async (base64String: string, maxWidth: number = 1200): Promise<string> => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        // Calculate new dimensions
+        if (width > maxWidth) {
+          height = (maxWidth / width) * height;
+          width = maxWidth;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d')!;
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Convert to base64 with compression
+        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+        resolve(compressedBase64);
+      };
+      img.src = base64String;
+    });
+  };
   const [destinationCountry, setDestinationCountry] = useState<'UAE' | 'GCC' | 'Worldwide'>('UAE');
   const [needsTranslation, setNeedsTranslation] = useState(false);
   const [needsCourier, setNeedsCourier] = useState(false);
@@ -140,8 +169,16 @@ export default function AttestPage() {
 
     // Read all files as base64 for vision API
     const reader = new FileReader();
-    reader.onload = (e) => {
-      const base64Result = e.target?.result as string;
+    reader.onload = async (e) => {
+      let base64Result = e.target?.result as string;
+      
+      // Compress images to avoid 413 errors
+      if (file.type.startsWith('image/') && file.size > 1024 * 1024) { // If image > 1MB
+        console.log('Compressing large image:', formatFileSize(file.size));
+        base64Result = await compressImage(base64Result);
+        console.log('Image compressed');
+      }
+      
       uploadedFile.content = base64Result; // Store base64 for AI analysis
       
       // For images, also use as preview

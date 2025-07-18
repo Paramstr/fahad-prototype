@@ -8,6 +8,14 @@ const openai = new OpenAI({
 
 export async function POST(request: NextRequest) {
   try {
+    // Check request size
+    const contentLength = request.headers.get('content-length');
+    if (contentLength && parseInt(contentLength) > 4.5 * 1024 * 1024) {
+      return NextResponse.json({ 
+        error: 'Request too large. Please upload smaller images or documents (max 4.5MB).'
+      }, { status: 413 });
+    }
+
     // Check API key first
     if (!process.env.OPENAI_API_KEY) {
       console.error('OPENAI_API_KEY is not configured');
