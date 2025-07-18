@@ -30,74 +30,73 @@ export default function CorporatePage() {
   const [selectedDocument, setSelectedDocument] = useState<BulkDocument | null>(null);
   const [activeFilter, setActiveFilter] = useState('All');
 
-  // Mock document data
-  const mockDocuments: BulkDocument[] = [
-    {
-      id: 1,
-      filename: 'contract_001.pdf',
-      type: 'Commercial Contract',
-      status: 'Completed',
-      progress: 100,
-      size: '2.3 MB',
-      uploadedAt: '2025-01-17T10:30:00Z',
-      analysisResult: {
-        documentType: 'Commercial Contract',
-        confidence: 98,
-        language: 'English',
-        quality: 'good',
-        estimatedCost: 185
-      },
-      services: ['Translation', 'MoJ Notarization', 'MoFA Attestation'],
-      totalCost: 185
-    },
-    {
-      id: 2,
-      filename: 'birth_cert_batch_01.pdf',
-      type: 'Birth Certificate',
-      status: 'Processing',
-      progress: 65,
-      size: '1.8 MB',
-      uploadedAt: '2025-01-17T11:15:00Z',
-      analysisResult: {
-        documentType: 'Birth Certificate',
-        confidence: 95,
-        language: 'Arabic',
-        quality: 'good',
-        estimatedCost: 160
-      },
-      services: ['MoJ Notarization', 'MoFA Attestation', 'Embassy Legalization'],
-      totalCost: 160
-    },
-    {
-      id: 3,
-      filename: 'educational_docs.pdf',
-      type: 'Educational Certificate',
-      status: 'Analyzing',
-      progress: 25,
-      size: '3.1 MB',
-      uploadedAt: '2025-01-17T11:45:00Z'
-    },
-    {
-      id: 4,
-      filename: 'power_of_attorney_v2.pdf',
-      type: 'Power of Attorney',
-      status: 'Completed',
-      progress: 100,
-      size: '1.5 MB',
-      uploadedAt: '2025-01-17T09:20:00Z',
-      analysisResult: {
-        documentType: 'Power of Attorney',
-        confidence: 92,
-        language: 'English',
-        quality: 'fair',
-        estimatedCost: 145
-      },
-      services: ['Translation', 'MoJ Notarization'],
-      totalCost: 145
-    }
-  ];
-
   useEffect(() => {
+    // Mock document data
+    const mockDocuments: BulkDocument[] = [
+      {
+        id: 1,
+        filename: 'contract_001.pdf',
+        type: 'Commercial Contract',
+        status: 'Completed',
+        progress: 100,
+        size: '2.3 MB',
+        uploadedAt: '2025-01-17T10:30:00Z',
+        analysisResult: {
+          documentType: 'Commercial Contract',
+          confidence: 98,
+          language: 'English',
+          quality: 'good',
+          estimatedCost: 185
+        },
+        services: ['Translation', 'MoJ Notarization', 'MoFA Attestation'],
+        totalCost: 185
+      },
+      {
+        id: 2,
+        filename: 'birth_cert_batch_01.pdf',
+        type: 'Birth Certificate',
+        status: 'Processing',
+        progress: 65,
+        size: '1.8 MB',
+        uploadedAt: '2025-01-17T11:15:00Z',
+        analysisResult: {
+          documentType: 'Birth Certificate',
+          confidence: 95,
+          language: 'Arabic',
+          quality: 'good',
+          estimatedCost: 160
+        },
+        services: ['MoJ Notarization', 'MoFA Attestation', 'Embassy Legalization'],
+        totalCost: 160
+      },
+      {
+        id: 3,
+        filename: 'educational_docs.pdf',
+        type: 'Educational Certificate',
+        status: 'Analyzing',
+        progress: 25,
+        size: '3.1 MB',
+        uploadedAt: '2025-01-17T11:45:00Z'
+      },
+      {
+        id: 4,
+        filename: 'power_of_attorney_v2.pdf',
+        type: 'Power of Attorney',
+        status: 'Completed',
+        progress: 100,
+        size: '1.5 MB',
+        uploadedAt: '2025-01-17T09:20:00Z',
+        analysisResult: {
+          documentType: 'Power of Attorney',
+          confidence: 92,
+          language: 'English',
+          quality: 'fair',
+          estimatedCost: 145
+        },
+        services: ['Translation', 'MoJ Notarization'],
+        totalCost: 145
+      }
+    ];
     setDocuments(mockDocuments);
   }, []);
 

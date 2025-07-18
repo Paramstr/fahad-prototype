@@ -43,7 +43,13 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function handleDocumentAnalysis(params: any) {
+interface DocumentAnalysisParams {
+  fileName: string;
+  fileType: string;
+  fileBase64: string;
+}
+
+async function handleDocumentAnalysis(params: DocumentAnalysisParams) {
   const { fileName, fileType, fileBase64 } = params;
 
   if (!fileName || !fileType) {
@@ -211,7 +217,12 @@ Provide 3-5 concise, actionable recommendations for UAE legal compliance and not
   }
 }
 
-async function handleChat(params: any) {
+interface ChatParams {
+  message: string;
+  conversationHistory?: ChatCompletionMessageParam[];
+}
+
+async function handleChat(params: ChatParams) {
   const { message, conversationHistory } = params;
 
   if (!message) {

@@ -303,7 +303,7 @@ export default function NotaryWorkflow() {
                   onClick={() => setCurrentStep('upload')}
                   className="btn btn-primary btn-lg"
                 >
-                  I've Completed External Notarization
+                  I&apos;ve Completed External Notarization
                   <svg className="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>

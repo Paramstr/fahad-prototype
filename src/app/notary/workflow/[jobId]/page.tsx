@@ -1,24 +1,32 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+// import { motion } from 'framer-motion'; // Commented out - unused
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 
 interface WorkflowProps {
-  params: {
+  params: Promise<{
     jobId: string;
-  };
+  }>;
 }
 
 export default function NotaryWorkflow({ params }: WorkflowProps) {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(2);
+  const [jobId, setJobId] = useState<string>('');
   
+  // Resolve async params
+  useEffect(() => {
+    params.then(resolvedParams => {
+      setJobId(resolvedParams.jobId);
+    });
+  }, [params]);
+
   const steps = [
-    { id: 1, name: 'Prepare Documents', status: 'completed' },
-    { id: 2, name: 'MOJ System Upload', status: 'current' },
-    { id: 3, name: 'Verification', status: 'pending' },
-    { id: 4, name: 'Final Approval', status: 'pending' }
+    { id: 1, name: 'Prepare Documents', status: currentStep > 1 ? 'completed' : currentStep === 1 ? 'current' : 'pending' },
+    { id: 2, name: 'MOJ System Upload', status: currentStep > 2 ? 'completed' : currentStep === 2 ? 'current' : 'pending' },
+    { id: 3, name: 'Verification', status: currentStep > 3 ? 'completed' : currentStep === 3 ? 'current' : 'pending' },
+    { id: 4, name: 'Final Approval', status: currentStep > 4 ? 'completed' : currentStep === 4 ? 'current' : 'pending' }
   ];
 
   const jobData = {
@@ -34,7 +42,21 @@ export default function NotaryWorkflow({ params }: WorkflowProps) {
     }
   };
 
-  const job = jobData[params.jobId as keyof typeof jobData] || jobData['NJ-2024-001'];
+  const job = jobData[jobId as keyof typeof jobData] || jobData['NJ-2024-001'];
+
+  // Show loading state while params are being resolved
+  if (!jobId) {
+    return (
+      <div className="min-h-screen bg-praxeti-100">
+        <Navbar />
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-midnight-600">Loading...</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-praxeti-100">
@@ -62,7 +84,7 @@ export default function NotaryWorkflow({ params }: WorkflowProps) {
             <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
               <h2 className="text-lg font-semibold text-midnight-900 mb-6">Process Steps</h2>
               <div className="space-y-4">
-                {steps.map((step, index) => (
+                {steps.map((step) => (
                   <div key={step.id} className="flex items-center space-x-3">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                       step.status === 'completed' ? 'bg-mantis-600 text-white' :

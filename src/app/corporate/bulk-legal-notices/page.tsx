@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -29,7 +29,7 @@ export default function BulkLegalNoticesPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedNotary, setSelectedNotary] = useState<string>('');
   const [deliveryMethod, setDeliveryMethod] = useState<string[]>([]);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  // const fileInputRef = useRef<HTMLInputElement>(null); // Commented out - unused
   const router = useRouter();
 
   const steps: ProgressStep[] = [
@@ -62,20 +62,7 @@ export default function BulkLegalNoticesPage() {
     }, 3000);
   };
 
-  const handleZipUpload = (files?: FileList | null) => {
-    // Mock ZIP processing
-    const mockNotices: LegalNotice[] = Array.from({ length: 12 }, (_, i) => ({
-      id: `uploaded-${i + 1}`,
-      tenantName: `Mr. Ahmed ${i + 1}`,
-      flatNumber: `Unit ${i + 1}0${Math.floor(Math.random() * 9) + 1}`,
-      noticeType: 'Legal Notice - Overdue Rent',
-      status: Math.random() > 0.9 ? 'needs_fix' : 'valid',
-      issues: Math.random() > 0.9 ? ['Incomplete address', 'Missing tenant ID'] : undefined
-    }));
-    
-    setNotices(mockNotices);
-    setCurrentStep(3);
-  };
+  // handleZipUpload function removed - was unused
 
   const validNotices = notices.filter(n => n.status === 'valid').length;
   const issueNotices = notices.filter(n => n.status === 'needs_fix').length;
@@ -819,7 +806,7 @@ export default function BulkLegalNoticesPage() {
                 </div>
                 <h2 className="text-3xl font-semibold text-midnight-900 mb-4">Order Complete!</h2>
                 <p className="text-lg text-midnight-600 mb-8">
-                  Your bulk legal notice order has been submitted. You'll receive updates on the progress.
+                  Your bulk legal notice order has been submitted. You&apos;ll receive updates on the progress.
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

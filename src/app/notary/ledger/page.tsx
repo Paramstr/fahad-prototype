@@ -220,7 +220,7 @@ export default function NotaryLedger() {
             ].map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id as 'transactions' | 'summary' | 'reports')}
                 className={`flex items-center space-x-2 px-6 py-3 font-medium text-sm transition-all duration-200 ${
                   activeTab === tab.id
                     ? 'text-nuit-700 border-b-2 border-nuit-600'
@@ -391,7 +391,7 @@ export default function NotaryLedger() {
                 </div>
                 <h3 className="text-lg font-medium text-midnight-900 mb-2">Tax Reports Coming Soon</h3>
                 <p className="text-midnight-600 max-w-md mx-auto mb-6">
-                  We're preparing comprehensive tax reports for your notary earnings. This feature will be available soon.
+                  We&apos;re preparing comprehensive tax reports for your notary earnings. This feature will be available soon.
                 </p>
                 <div className="space-y-3">
                   <div className="flex items-center justify-center space-x-2 text-sm text-midnight-600">

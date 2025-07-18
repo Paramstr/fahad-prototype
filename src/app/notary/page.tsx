@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 
 export default function NotaryDashboard() {
-  const [activeTab, setActiveTab] = useState('pending');
+  // const [activeTab, setActiveTab] = useState('pending'); // Commented out - unused
 
   const pendingJobs = [
     {
@@ -60,7 +60,7 @@ export default function NotaryDashboard() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h1 className="text-4xl font-medium text-midnight-900 mb-2">Good morning, Notary.</h1>
-              <p className="text-lg text-midnight-600">Ready to process today's notarizations?</p>
+              <p className="text-lg text-midnight-600">Ready to process today&apos;s notarizations?</p>
             </div>
             <motion.div 
               className="flex items-center space-x-3 bg-white rounded-xl p-4 shadow-sm border border-gray-200"

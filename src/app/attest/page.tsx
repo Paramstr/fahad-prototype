@@ -23,7 +23,20 @@ export default function AttestPage() {
   const [documentType, setDocumentType] = useState<string>('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisProgress, setAnalysisProgress] = useState('Uploading...');
-  const [analysisResults, setAnalysisResults] = useState<any>(null);
+  interface AnalysisResult {
+    documentType: string;
+    confidence: number;
+    language: string;
+    needsTranslation: boolean;
+    needsArabicTranslation: boolean;
+    quality: string;
+    recommendations: string[];
+    notarizationSteps: string[];
+    estimatedTime: string;
+    priority: string;
+    rawAnalysis?: string;
+  }
+  const [analysisResults, setAnalysisResults] = useState<AnalysisResult | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [destinationCountry, setDestinationCountry] = useState<'UAE' | 'GCC' | 'Worldwide'>('UAE');
   const [needsTranslation, setNeedsTranslation] = useState(false);

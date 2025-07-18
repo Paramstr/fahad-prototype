@@ -165,7 +165,6 @@ export default function SpeakToNotaryPage() {
           )}
           {currentStep === 'schedule-meeting' && (
             <ScheduleMeetingStep
-              data={consultationData}
               onSchedule={scheduleAppointment}
               onBack={() => setCurrentStep('fee-confirmation')}
               currentStep={stepIndex[currentStep]}
@@ -358,8 +357,8 @@ const FeeConfirmationStep = ({ data, onConfirm, onBack, currentStep, steps }: {
 );
 
 // A3: Schedule Meeting
-const ScheduleMeetingStep = ({ data, onSchedule, onBack, currentStep, steps }: {
-  data: ConsultationData;
+const ScheduleMeetingStep = ({ onSchedule, onBack, currentStep, steps }: {
+  // data: ConsultationData; // Commented out - unused
   onSchedule: (date: string, time: string, topic: string) => void;
   onBack: () => void;
   currentStep: number;
@@ -499,7 +498,7 @@ const BookingConfirmationStep = ({ data, onStartSession, onBack, currentStep, st
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
         </svg>
       </div>
-      <h1 className="text-4xl font-bold text-midnight-900 mb-4">You're booked!</h1>
+      <h1 className="text-4xl font-bold text-midnight-900 mb-4">You&apos;re booked!</h1>
       <p className="text-xl text-midnight-600">Your consultation has been scheduled successfully</p>
     </div>
 
@@ -541,7 +540,7 @@ const BookingConfirmationStep = ({ data, onStartSession, onBack, currentStep, st
           <li>• The video link will be active 10 minutes before your appointment</li>
           <li>• Please ensure you have a stable internet connection</li>
           <li>• Have your ID and any relevant documents ready</li>
-          <li>• You'll receive a confirmation email with the meeting link</li>
+          <li>• You&apos;ll receive a confirmation email with the meeting link</li>
         </ul>
       </div>
 
@@ -579,7 +578,7 @@ const VideoSessionStep = ({ data, currentStep, steps }: {
     
     <div className="text-center mb-8">
       <h1 className="text-4xl font-bold text-midnight-900 mb-4">Live Video Session</h1>
-      <p className="text-xl text-midnight-600">You're connected with {data.notaryName}</p>
+      <p className="text-xl text-midnight-600">You&apos;re connected with {data.notaryName}</p>
     </div>
 
     <div className="max-w-6xl mx-auto">
@@ -661,7 +660,7 @@ const VideoSessionStep = ({ data, currentStep, steps }: {
 
 // AI Chat Step - Interactive chat interface for instant legal assistance
 const AIChatStep = ({ onBack }: { onBack: () => void }) => {
-  const [selectedQuestion, setSelectedQuestion] = useState<string>('');
+  // const [selectedQuestion, setSelectedQuestion] = useState<string>(''); // Commented out - unused
   const [customMessage, setCustomMessage] = useState<string>('');
   const [chatMessages, setChatMessages] = useState<Array<{ type: 'user' | 'ai'; message: string; timestamp: Date }>>([]);
 
@@ -744,7 +743,7 @@ const AIChatStep = ({ onBack }: { onBack: () => void }) => {
     });
     
     setCustomMessage('');
-    setSelectedQuestion('');
+    // setSelectedQuestion(''); // Removed - selectedQuestion was commented out
   };
 
   const generateAIResponse = async (question: string): Promise<string> => {
