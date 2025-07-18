@@ -621,7 +621,7 @@ export default function CorporatePage() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-4xl max-h-[80vh] overflow-hidden rounded-2xl shadow-2xl mx-4 sm:mx-0"
+              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-4xl max-h-[80vh] overflow-hidden rounded-2xl shadow-2xl mx-4 sm:mx-6"
             >
               <div className="bg-white" onClick={(e) => e.stopPropagation()}>
                 {/* Modal Header */}

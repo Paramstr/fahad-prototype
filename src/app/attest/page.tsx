@@ -385,7 +385,7 @@ export default function AttestPage() {
     <div className="min-h-screen bg-praxeti-200">
       <Navbar />
 
-      <header className="max-w-full border-b border-gray-200 mx-auto px-6 sm:px-8 lg:px-12 py-6 flex flex-col md:flex-row md:items-start gap-6">
+      <header className="max-w-full border-b border-gray-200 mx-auto px-4 sm:px-6 lg:px-12 py-6 flex flex-col md:flex-row md:items-start gap-6">
         <div className="shrink-0 space-y-2">
           <Link
             href="/"
@@ -401,12 +401,12 @@ export default function AttestPage() {
           </h1>
         </div>
 
-        <div className="flex justify-center w-full -translate-x-20">
+        <div className="flex justify-center w-full md:-translate-x-20">
           <ProgressBar currentStep={currentStep} steps={steps} />
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 py-12">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-12 py-8 sm:py-12">
         <AnimatePresence mode="wait">
           {/* Step 1: Upload Document */}
           {currentStep === 1 && (
@@ -857,9 +857,9 @@ export default function AttestPage() {
                 <p className="text-lg text-midnight-600">Review your attestation services and complete payment</p>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                 {/* Document Overview */}
-                <div className="card p-6">
+                <div className="card p-4 sm:p-6">
                   <h4 className="font-semibold text-midnight-900 mb-4">Document Overview</h4>
                   {uploadedFile?.preview ? (
                     <img
@@ -884,7 +884,7 @@ export default function AttestPage() {
                 </div>
 
                 {/* Service Invoice */}
-                <div className="card p-6">
+                <div className="card p-4 sm:p-6">
                   <h4 className="font-semibold text-midnight-900 mb-4">Service Invoice</h4>
                   <div className="space-y-3">
                     {needsTranslation && (
@@ -919,7 +919,7 @@ export default function AttestPage() {
                 </div>
 
                 {/* Payment Method */}
-                <div className="card p-6">
+                <div className="card p-4 sm:p-6">
                   <h4 className="font-semibold text-midnight-900 mb-4">Payment Method</h4>
                   <div className="flex items-center gap-4 mb-4">
                     <img src="/Payment/visa.svg" alt="Visa" className="h-8" />

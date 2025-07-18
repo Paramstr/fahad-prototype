@@ -273,7 +273,7 @@ export default function NotarizePage() {
       <Navbar/>
 
       {/* Progress Header */}
-      <header className="max-w-full border-b border-gray-200 mx-auto px-6 sm:px-8 lg:px-12 py-6 flex flex-col md:flex-row md:items-start gap-6">
+      <header className="max-w-full border-b border-gray-200 mx-auto px-4 sm:px-6 lg:px-12 py-6 flex flex-col md:flex-row md:items-start gap-6">
         {/* --- Left zone (fixed width) --- */}
         <div className="shrink-0 space-y-2">
           <Link
@@ -291,7 +291,7 @@ export default function NotarizePage() {
         </div>
 
         {/* --- Center zone (flex‑1) --- */}
-        <div className="flex justify-center w-full -translate-x-20">
+        <div className="flex justify-center w-full md:-translate-x-20">
           <ProgressBar
             currentStep={currentStep}
             steps={steps}
@@ -300,7 +300,7 @@ export default function NotarizePage() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-8 sm:py-12">
         <AnimatePresence mode="wait">
           {/* Step 1: Upload Document */}
           {currentStep === 1 && (
@@ -665,9 +665,9 @@ export default function NotarizePage() {
                 <p className="text-lg text-midnight-600">Review your services and complete payment to start</p>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                 {/* Document Overview */}
-                <div className="card p-6 flex flex-col gap-4">
+                <div className="card p-4 sm:p-6 flex flex-col gap-4">
                   <h4 className="font-semibold text-midnight-900">Document Overview</h4>
                   {uploadedFile?.preview ? (
                     <img
@@ -706,7 +706,7 @@ export default function NotarizePage() {
                   </div>
                 </div>
                 {/* Order Review */}
-                <div className="card p-6 flex-1">
+                <div className="card p-4 sm:p-6 flex-1">
                   <h4 className="font-semibold text-midnight-900 mb-4">Selected Services</h4>
                   <ul className="space-y-3">
                     {services.map(s => (
@@ -723,7 +723,7 @@ export default function NotarizePage() {
                 </div>
 
                 {/* Payment Details */}
-                <div className="w-full md:max-w-sm card p-6 flex flex-col gap-4">
+                <div className="w-full md:max-w-sm card p-4 sm:p-6 flex flex-col gap-4">
                   <h4 className="font-semibold text-midnight-900">Payment Method</h4>
                   <div className="flex items-center gap-4">
                     <img src="/Payment/visa.svg" alt="Visa" className="h-8" />

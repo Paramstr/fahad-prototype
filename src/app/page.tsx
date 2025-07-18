@@ -542,7 +542,7 @@ export default function NotaryAIHome() {
                   whileHover={{ boxShadow: '0 6px 12px rgba(0,31,63,0.08)' }}
                   exit={{ opacity: 0, y: -20, boxShadow: '0 0 0 rgba(0,0,0,0)' }}
                   transition={{ duration: 0.1, ease: 'easeOut' }}
-                  className={`card p-6 transition-all duration-200 relative overflow-hidden cursor-pointer ${
+                  className={`card p-4 sm:p-6 transition-all duration-200 relative overflow-hidden cursor-pointer ${
                     activity.documentType === 'attestation' ? 'border-amber-300' : 'border-green-900/20'
                   }`}
                   onClick={() => setSelectedActivity(activity)}
@@ -664,7 +664,7 @@ export default function NotaryAIHome() {
                 stiffness: 300,
                 damping: 25
               }}
-              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl max-h-[80vh] overflow-hidden rounded-2xl mx-4 sm:mx-0"
+              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl max-h-[90vh] overflow-hidden rounded-2xl mx-4 sm:mx-6"
               style={{
                 boxShadow: '0 20px 25px -5px rgba(0, 31, 63, 0.2), 0 8px 10px -6px rgba(0, 31, 63, 0.15)'
               }}
@@ -712,7 +712,7 @@ export default function NotaryAIHome() {
                 </div>
 
                 {/* Condensed Content Section */}
-                <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 max-h-[55vh] overflow-y-auto bg-white">
+                <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 max-h-[60vh] overflow-y-auto bg-white">
                   {/* Cost Summary - Condensed */}
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
