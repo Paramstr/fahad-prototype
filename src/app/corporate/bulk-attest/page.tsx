@@ -253,9 +253,9 @@ export default function BulkAttestPage() {
       <Navbar />
 
       {/* Header */}
-      <header className="max-w-full border-b border-gray-200 mx-auto px-6 sm:px-8 lg:px-12 py-6">
-        <div className="flex items-center justify-between">
-          <div>
+      <header className="max-w-full border-b border-gray-200 mx-auto px-4 sm:px-6 lg:px-12 py-4 sm:py-6">
+        <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+          <div className="flex-1">
             <Link
               href="/corporate"
               className="flex items-center gap-2 text-sm font-medium text-brand-600 hover:text-brand-700 mb-2"
@@ -265,12 +265,12 @@ export default function BulkAttestPage() {
               </svg>
               Back to Corporate Dashboard
             </Link>
-            <h1 className="text-3xl font-semibold text-midnight-900">Bulk Document Attestation</h1>
-            <p className="text-midnight-600 mt-1">Upload multiple documents for batch attestation processing</p>
+            <h1 className="text-2xl sm:text-3xl font-semibold text-midnight-900">Bulk Document Attestation</h1>
+            <p className="text-sm sm:text-base text-midnight-600 mt-1">Upload multiple documents for batch attestation processing</p>
           </div>
           
           {files.length > 0 && (
-            <div className="text-right">
+            <div className="text-left sm:text-right">
               <div className="text-sm text-midnight-600">
                 {processedFiles} of {files.length} processed
               </div>
@@ -282,7 +282,7 @@ export default function BulkAttestPage() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8">
         {/* Upload Zone */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -291,7 +291,7 @@ export default function BulkAttestPage() {
           className="mb-8"
         >
           <div
-            className={`border-2 border-dashed rounded-xl p-12 transition-all duration-300 ${
+            className={`border-2 border-dashed rounded-xl p-6 sm:p-8 lg:p-12 transition-all duration-300 ${
               isDragOver 
                 ? 'border-brand-500 bg-brand-50' 
                 : 'border-gray-300 bg-white hover:border-brand-400 hover:bg-brand-50'
@@ -302,31 +302,32 @@ export default function BulkAttestPage() {
           >
             <div className="text-center">
               <motion.div
-                className="mx-auto w-16 h-16 bg-brand-600 rounded-full flex items-center justify-center mb-6"
+                className="mx-auto w-12 h-12 sm:w-16 sm:h-16 bg-brand-600 rounded-full flex items-center justify-center mb-4 sm:mb-6"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
               >
-                <svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="h-6 w-6 sm:h-8 sm:w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
                 </svg>
               </motion.div>
-              <h3 className="text-xl font-semibold text-midnight-900 mb-2">Drop documents here or click to browse</h3>
-              <p className="text-midnight-600 mb-6">Upload multiple PDF, image, or Word files for bulk attestation</p>
-              <div className="flex space-x-4">
+              <h3 className="text-lg sm:text-xl font-semibold text-midnight-900 mb-2">Drop documents here or click to browse</h3>
+              <p className="text-sm sm:text-base text-midnight-600 mb-4 sm:mb-6">Upload multiple PDF, image, or Word files for bulk attestation</p>
+              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 items-center justify-center">
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="px-8 py-3 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                  className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                 >
                   Select Files
                 </button>
                 <button
                   onClick={simulateBulkUpload}
-                  className="px-8 py-3 bg-nuit-600 text-white rounded-lg hover:bg-nuit-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                  className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-nuit-600 text-white rounded-lg hover:bg-nuit-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                 >
-                  Simulate Bulk Upload (20 Files)
+                  <span className="sm:hidden">Simulate Upload (20 Files)</span>
+                  <span className="hidden sm:inline">Simulate Bulk Upload (20 Files)</span>
                 </button>
               </div>
-              <p className="text-sm text-gray-500 mt-4">Supports PDF, JPG, JPEG, PNG, DOC, DOCX files</p>
+              <p className="text-xs sm:text-sm text-gray-500 mt-4">Supports PDF, JPG, JPEG, PNG, DOC, DOCX files</p>
             </div>
             
             <input
@@ -348,9 +349,9 @@ export default function BulkAttestPage() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="card p-6 mb-6"
           >
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
               {/* Left: Summary Stats */}
-              <div className="flex items-center space-x-8">
+              <div className="flex flex-wrap items-center gap-4 sm:gap-6 lg:gap-8">
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-mantis-500 rounded-full"></div>
                   <span className="text-sm font-medium text-midnight-900">{validFiles} Valid</span>
@@ -367,7 +368,7 @@ export default function BulkAttestPage() {
               </div>
 
               {/* Right: Action Buttons */}
-              <div className="flex items-center space-x-3">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-3">
                 {invalidFiles > 0 && (
                   <button
                     className="px-4 py-2 text-sm bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-all duration-200 font-medium"
@@ -388,7 +389,8 @@ export default function BulkAttestPage() {
                     onClick={() => router.push('/corporate')}
                     className="px-6 py-2 text-sm bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition-all duration-200 font-medium"
                   >
-                    {invalidFiles > 0 ? `Proceed with ${validFiles} Valid` : 'Proceed to Payment'}
+                    <span className="sm:hidden">{invalidFiles > 0 ? `Proceed (${validFiles})` : 'Proceed to Payment'}</span>
+                    <span className="hidden sm:inline">{invalidFiles > 0 ? `Proceed with ${validFiles} Valid` : 'Proceed to Payment'}</span>
                   </button>
                 )}
               </div>
@@ -403,7 +405,7 @@ export default function BulkAttestPage() {
                 className="mt-4 pt-4 border-t border-gray-200"
               >
                 <div className="text-sm font-medium text-red-700 mb-3">Documents needing attention:</div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3">
                   {files
                     .filter(file => file.analysisResult?.isValid === false)
                     .map(file => (
@@ -438,24 +440,24 @@ export default function BulkAttestPage() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="card mb-8"
           >
-            <div className="p-6 border-b border-gray-200">
-              <div className="flex items-center justify-between">
+            <div className="p-4 sm:p-6 border-b border-gray-200">
+              <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                 <h2 className="text-lg font-semibold text-midnight-900">
                   Uploaded Files ({files.length})
                 </h2>
-                <div className="flex space-x-4">
+                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
                   {files.some(file => file.status === 'pending') && (
                     <button
                       onClick={processFiles}
                       disabled={isProcessing}
-                      className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 ${
+                      className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-all duration-200 ${
                         isProcessing
                           ? 'bg-gray-400 text-white cursor-not-allowed'
                           : 'bg-brand-600 text-white hover:bg-brand-700 shadow-md hover:shadow-lg'
                       }`}
                     >
                       {isProcessing ? (
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center justify-center space-x-2">
                           <motion.svg 
                             className="h-4 w-4"
                             animate={{ rotate: 360 }}
@@ -492,50 +494,46 @@ export default function BulkAttestPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.2 }}
-                    className="p-6 hover:bg-praxeti-200 transition-colors duration-150"
+                    className="p-4 sm:p-6 hover:bg-praxeti-200 transition-colors duration-150"
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4 flex-1">
-                        <div className="flex-shrink-0 h-10 w-10 bg-brand-100 rounded-lg flex items-center justify-center">
-                          <svg className="h-6 w-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-start space-x-3 sm:space-x-4 flex-1 min-w-0">
+                        <div className="flex-shrink-0 h-8 w-8 sm:h-10 sm:w-10 bg-brand-100 rounded-lg flex items-center justify-center">
+                          <svg className="h-4 w-4 sm:h-6 sm:w-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                           </svg>
                         </div>
                         
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center space-x-4">
-                            <div>
-                              <p className="text-sm font-medium text-midnight-900 truncate">{file.name}</p>
-                              <div className="flex items-center space-x-4 mt-1">
-                                <p className="text-sm text-midnight-600">{file.size}</p>
-                                <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(file.status)}`}>
-                                  {file.status}
+                          <p className="text-sm font-medium text-midnight-900 truncate">{file.name}</p>
+                          <div className="flex flex-wrap items-center gap-2 mt-1">
+                            <p className="text-xs sm:text-sm text-midnight-600">{file.size}</p>
+                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(file.status)}`}>
+                              {file.status}
+                            </span>
+                            {file.analysisResult && (
+                              <>
+                                <span className="text-xs sm:text-sm text-midnight-600">
+                                  {file.analysisResult.documentType}
                                 </span>
-                                {file.analysisResult && (
-                                  <>
-                                    <span className="text-sm text-midnight-600">
-                                      {file.analysisResult.documentType}
-                                    </span>
-                                    <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-                                      file.analysisResult.isValid 
-                                        ? 'bg-mantis-100 text-mantis-700' 
-                                        : 'bg-red-100 text-red-700'
-                                    }`}>
-                                      {file.analysisResult.isValid ? 'Valid' : 'Invalid'}
-                                    </span>
-                                    <span className="text-sm font-medium text-brand-600">
-                                      AED {file.analysisResult.estimatedCost}
-                                    </span>
-                                  </>
-                                )}
-                              </div>
-                            </div>
+                                <span className={`text-xs font-medium px-2 py-1 rounded-full ${
+                                  file.analysisResult.isValid 
+                                    ? 'bg-mantis-100 text-mantis-700' 
+                                    : 'bg-red-100 text-red-700'
+                                }`}>
+                                  {file.analysisResult.isValid ? 'Valid' : 'Invalid'}
+                                </span>
+                                <span className="text-xs sm:text-sm font-medium text-brand-600">
+                                  AED {file.analysisResult.estimatedCost}
+                                </span>
+                              </>
+                            )}
                           </div>
                           
                           {/* Progress Bar */}
                           <div className="mt-3">
                             <div className="flex items-center">
-                              <div className="w-full bg-gray-200 rounded-full h-2 mr-4">
+                              <div className="flex-1 bg-gray-200 rounded-full h-2 mr-3 min-w-0">
                                 <motion.div 
                                   className="bg-brand-600 h-2 rounded-full"
                                   initial={{ width: 0 }}
@@ -543,7 +541,7 @@ export default function BulkAttestPage() {
                                   transition={{ duration: 0.5 }}
                                 />
                               </div>
-                              <span className="text-sm text-midnight-600 min-w-[3rem]">{file.progress}%</span>
+                              <span className="text-xs sm:text-sm text-midnight-600 min-w-[2.5rem] text-right">{file.progress}%</span>
                             </div>
                           </div>
                         </div>
@@ -551,9 +549,9 @@ export default function BulkAttestPage() {
                       
                       <button
                         onClick={() => removeFile(file.id)}
-                        className="ml-4 p-1 text-gray-400 hover:text-red-600 transition-colors duration-200"
+                        className="ml-2 sm:ml-4 p-1 text-gray-400 hover:text-red-600 transition-colors duration-200 flex-shrink-0"
                       >
-                        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>
                       </button>

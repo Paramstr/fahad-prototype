@@ -49,7 +49,7 @@ export default function NotaryWorkflow({ params }: WorkflowProps) {
     return (
       <div className="min-h-screen bg-praxeti-100">
         <Navbar />
-        <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
           <div className="flex items-center justify-center h-64">
             <div className="text-midnight-600">Loading...</div>
           </div>
@@ -62,9 +62,9 @@ export default function NotaryWorkflow({ params }: WorkflowProps) {
     <div className="min-h-screen bg-praxeti-100">
       <Navbar />
       
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-6 sm:mb-8">
           <div>
             <div className="flex items-center space-x-3 mb-2">
               <Link href="/notary/review" className="text-brand-600 hover:text-brand-800">
@@ -72,57 +72,68 @@ export default function NotaryWorkflow({ params }: WorkflowProps) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </Link>
-              <h1 className="text-3xl font-bold text-midnight-900">External Workflow</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-midnight-900">External Workflow</h1>
             </div>
-            <p className="text-midnight-600">Processing {job.client} - {job.type}</p>
+            <p className="text-sm sm:text-base text-midnight-600">Processing {job.client} - {job.type}</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {/* Progress Steps */}
           <div className="lg:col-span-1">
-            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
-              <h2 className="text-lg font-semibold text-midnight-900 mb-6">Process Steps</h2>
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4 sm:p-6">
+              <h2 className="text-base sm:text-lg font-semibold text-midnight-900 mb-4 sm:mb-6">Process Steps</h2>
               <div className="space-y-4">
-                {steps.map((step) => (
-                  <div key={step.id} className="flex items-center space-x-3">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                      step.status === 'completed' ? 'bg-mantis-600 text-white' :
-                      step.status === 'current' ? 'bg-brand-600 text-white' :
-                      'bg-gray-200 text-gray-600'
-                    }`}>
-                      {step.status === 'completed' ? '✓' : step.id}
-                    </div>
-                    <div>
-                      <div className={`font-medium ${
-                        step.status === 'current' ? 'text-brand-600' : 'text-midnight-900'
+                {(() => {
+                  const visibleSteps = [];
+                  const prevStep = currentStep > 1 ? steps[currentStep - 2] : null;
+                  const currentStepObj = steps[currentStep - 1];
+                  const nextStep = currentStep < steps.length ? steps[currentStep] : null;
+                  
+                  if (prevStep) visibleSteps.push(prevStep);
+                  if (currentStepObj) visibleSteps.push(currentStepObj);
+                  if (nextStep) visibleSteps.push(nextStep);
+                  
+                  return visibleSteps.map((step) => (
+                    <div key={step.id} className="flex items-center space-x-3">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                        step.status === 'completed' ? 'bg-mantis-600 text-white' :
+                        step.status === 'current' ? 'bg-mantis-800 text-white' :
+                        'bg-gray-200 text-gray-600'
                       }`}>
-                        {step.name}
+                        {step.status === 'completed' ? '✓' : step.id}
                       </div>
-                      <div className="text-sm text-midnight-600 capitalize">{step.status}</div>
+                      <div>
+                        <div className={`font-medium ${
+                          step.status === 'current' ? 'text-mantis-800' : 'text-midnight-900'
+                        }`}>
+                          {step.name}
+                        </div>
+                        <div className="text-sm text-midnight-600 capitalize">{step.status}</div>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ));
+                })()}
               </div>
             </div>
           </div>
 
           {/* Main Content */}
           <div className="lg:col-span-2">
-            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
-              <h3 className="text-xl font-semibold text-midnight-900 mb-4">MOJ System Upload</h3>
-              <p className="text-midnight-600 mb-6">
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4 sm:p-6">
+              <h3 className="text-lg sm:text-xl font-semibold text-midnight-900 mb-4">MOJ System Upload</h3>
+              <p className="text-sm sm:text-base text-midnight-600 mb-6">
                 Download the processed documents and upload them to the Ministry of Justice system for official notarization.
               </p>
 
               <div className="space-y-4">
                 <div className="border border-gray-200 rounded-lg p-4">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
                     <div>
                       <h4 className="font-medium text-midnight-900">Approved Documents Package</h4>
                       <p className="text-sm text-midnight-600">{job.count} documents ready for external processing</p>
                     </div>
-                    <button className="btn btn-primary">
+                    <button className="btn btn-primary w-full sm:w-auto">
                       Download Package
                     </button>
                   </div>
@@ -138,15 +149,15 @@ export default function NotaryWorkflow({ params }: WorkflowProps) {
                   </ol>
                 </div>
 
-                <div className="flex items-center justify-between pt-4">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0 pt-4">
                   <Link href="/notary/review">
-                    <button className="btn btn-ghost">
+                    <button className="btn btn-ghost w-full sm:w-auto">
                       Back to Review
                     </button>
                   </Link>
                   <button 
                     onClick={() => setCurrentStep(3)}
-                    className="btn btn-primary"
+                    className="btn btn-primary w-full sm:w-auto"
                   >
                     Mark as Uploaded
                   </button>

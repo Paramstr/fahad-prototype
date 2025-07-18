@@ -171,21 +171,21 @@ export default function NotaryAIHome() {
       <Navbar/>
 
       {/* Main Content Container */}
-      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-8 relative z-10">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8 relative z-10">
         {/* Welcome Section - Personalized greeting */}
         <motion.div 
-          className="mb-12"
+          className="mb-8 sm:mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
-          <h1 className="text-4xl font-medium text-midnight-900 mb-2">Welcome, Fahad.</h1>
-          <p className="text-lg text-midnight-600">How can we help today?</p>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-midnight-900 mb-2">Welcome, Fahad.</h1>
+          <p className="text-base sm:text-lg text-midnight-600">How can we help today?</p>
         </motion.div>
 
         {/* Primary Action Cards - Main CTA buttons */}
         <motion.div 
-          className="grid gap-6 mb-16" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
+          className="grid gap-4 sm:gap-6 mb-12 sm:mb-16 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
@@ -253,19 +253,19 @@ export default function NotaryAIHome() {
               <div className="absolute inset-0 shadow-inner"></div>
               
               {/* Content Container with Enhanced Styling */}
-              <div className="relative z-10 p-8 border border-teal-400/30 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/5 via-white/2 to-transparent">
-                <div className="flex items-start justify-between mb-6">
+              <div className="relative z-10 p-4 sm:p-6 md:p-8 border border-teal-400/30 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/5 via-white/2 to-transparent">
+                <div className="flex items-start justify-between mb-4 sm:mb-6">
                   <motion.div 
-                    className="p-4 bg-gradient-to-br from-white/20 via-white/15 to-white/10 backdrop-blur-sm rounded-xl shadow-lg border border-white/20"
+                    className="p-3 sm:p-4 bg-gradient-to-br from-white/20 via-white/15 to-white/10 backdrop-blur-sm rounded-xl shadow-lg border border-white/20"
                     whileHover={{ scale: 1.1, rotate: -3 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <svg className="h-10 w-10 text-spring-400 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="h-8 w-8 sm:h-10 sm:w-10 text-spring-400 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                   </motion.div>
                   <motion.div 
-                    className="opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center space-x-1 text-xs text-spring-300 bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20 absolute bottom-6 right-6"
+                    className="opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center space-x-1 text-xs text-spring-300 bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20 absolute bottom-4 right-4 sm:bottom-6 sm:right-6"
                     initial={{ x: 0 }}
                     whileHover={{ x: 0 }}
                   >
@@ -276,10 +276,10 @@ export default function NotaryAIHome() {
                   </motion.div>
                 </div>
                 
-                <h3 className="text-3xl font-bold text-white mb-4 leading-tight drop-shadow-lg">
+                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4 leading-tight drop-shadow-lg">
                   Attest a Document
                 </h3>
-                <p className="text-praxeti-300 text-base mb-4 leading-relaxed">
+                <p className="text-praxeti-300 text-sm sm:text-base mb-4 leading-relaxed">
                   Complete legalisation service for international use.
                 </p>
                 
@@ -355,19 +355,19 @@ export default function NotaryAIHome() {
               <div className="absolute inset-0 shadow-inner"></div>
               
               {/* Content Container with Enhanced Styling */}
-              <div className="min-h-[21rem] relative z-10 p-8 border border-brand-400/30 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/5 via-white/2 to-transparent">
-                <div className="flex items-start justify-between mb-6">
+              <div className="relative z-10 p-4 sm:p-6 md:p-8 border border-brand-400/30 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/5 via-white/2 to-transparent">
+                <div className="flex items-start justify-between mb-4 sm:mb-6">
                   <motion.div 
-                    className="p-4 bg-gradient-to-br from-white/20 via-white/15 to-white/10 backdrop-blur-sm rounded-xl shadow-lg border border-white/20"
+                    className="p-3 sm:p-4 bg-gradient-to-br from-white/20 via-white/15 to-white/10 backdrop-blur-sm rounded-xl shadow-lg border border-white/20"
                     whileHover={{ scale: 1.1, rotate: -3 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <svg className="h-10 w-10 text-spring-400 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="h-8 w-8 sm:h-10 sm:w-10 text-spring-400 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                     </svg>
                   </motion.div>
                   <motion.div 
-                    className="opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center space-x-1 text-xs text-spring-300 bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20 absolute bottom-6 right-6"
+                    className="opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center space-x-1 text-xs text-spring-300 bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20 absolute bottom-4 right-4 sm:bottom-6 sm:right-6"
                     initial={{ x: 0 }}
                     whileHover={{ x: 0 }}
                   >
@@ -378,10 +378,10 @@ export default function NotaryAIHome() {
                   </motion.div>
                 </div>
                 
-                <h3 className="text-3xl font-bold text-white mb-4 leading-tight drop-shadow-lg">
+                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4 leading-tight drop-shadow-lg">
                   Notarize a Document
                 </h3>
-                <p className="text-praxeti-300 text-base mb-4 leading-relaxed">
+                <p className="text-praxeti-300 text-sm sm:text-base mb-4 leading-relaxed">
                   Create or certify a new document with a UAE notary.
                 </p>
                 
@@ -457,19 +457,19 @@ export default function NotaryAIHome() {
             <div className="absolute inset-0 shadow-inner"></div>
             
             {/* Content Container with Enhanced Styling */}
-            <div className="relative z-10 p-8 border border-nuit-400/30 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/5 via-white/2 to-transparent">
-              <div className="flex items-start justify-between mb-6">
+            <div className="relative z-10 p-4 sm:p-6 md:p-8 border border-nuit-400/30 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/5 via-white/2 to-transparent">
+              <div className="flex items-start justify-between mb-4 sm:mb-6">
                 <motion.div 
-                  className="p-4 bg-gradient-to-br from-white/20 via-white/15 to-white/10 backdrop-blur-sm rounded-xl shadow-lg border border-white/20"
+                  className="p-3 sm:p-4 bg-gradient-to-br from-white/20 via-white/15 to-white/10 backdrop-blur-sm rounded-xl shadow-lg border border-white/20"
                   whileHover={{ scale: 1.1, rotate: -3 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <svg className="h-10 w-10 text-spring-400 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="h-8 w-8 sm:h-10 sm:w-10 text-spring-400 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                   </svg>
                 </motion.div>
                 <motion.div 
-                  className="opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center space-x-1 text-xs text-spring-300 bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20 absolute bottom-6 right-6"
+                  className="opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center space-x-1 text-xs text-spring-300 bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20 absolute bottom-4 right-4 sm:bottom-6 sm:right-6"
                   initial={{ x: 0 }}
                   whileHover={{ x: 0 }}
                 >
@@ -480,10 +480,10 @@ export default function NotaryAIHome() {
                 </motion.div>
               </div>
               
-              <h3 className="text-3xl font-bold text-white mb-4 leading-tight drop-shadow-lg">
+              <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4 leading-tight drop-shadow-lg">
                 Speak to Notary
               </h3>
-              <p className="text-praxeti-300 text-base mb-4 leading-relaxed">
+              <p className="text-praxeti-300 text-sm sm:text-base mb-4 leading-relaxed">
                 Get expert legal advice and book consultations.
               </p>
               
@@ -505,7 +505,7 @@ export default function NotaryAIHome() {
           transition={{ duration: 0.8, delay: 0.9 }}
         >
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-midnight-900">Your Activity</h2>
+            <h2 className="text-lg sm:text-xl font-semibold text-midnight-900">Your Activity</h2>
             <div className="flex items-center space-x-2">
               <span className="px-2 py-1 bg-brand-600 text-white text-sm rounded-full">
                 {activities.length}
@@ -514,7 +514,7 @@ export default function NotaryAIHome() {
           </div>
 
           {/* Filter buttons */}
-          <div className="flex space-x-2 mb-6">
+          <div className="flex flex-wrap gap-2 mb-6">
             {['All', 'In Progress', 'Completed'].map((filter) => (
               <button
                 key={filter}
@@ -553,45 +553,84 @@ export default function NotaryAIHome() {
                     style={{ width: `${activity.progress}%` }}
                   />
                   
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
+                  {/* Desktop Layout */}
+                  <div className="hidden md:flex items-center justify-between min-w-0">
+                    <div className="flex items-center space-x-4 flex-shrink-0">
                       <div className="w-12 h-12 bg-brand-100 rounded-lg flex items-center justify-center">
                         <svg className="h-6 w-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                       </div>
-                      <div>
-                        <h3 className="font-medium text-midnight-900 text-lg">{activity.filename}</h3>
-                        <p className="text-sm text-midnight-600">{activity.type}</p>
+                      <div className="min-w-0">
+                        <h3 className="font-medium text-midnight-900 text-lg truncate">{activity.filename}</h3>
+                        <p className="text-sm text-midnight-600 truncate">{activity.type}</p>
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-6">
-                      <div className="text-center">
+                    <div className="flex items-center space-x-4 lg:space-x-6 min-w-0 flex-1 ml-4">
+                      <div className="text-center flex-shrink-0">
                         <p className="text-sm font-medium text-midnight-900">{activity.status}</p>
                         <p className="text-xs text-midnight-600">{activity.eta}</p>
                       </div>
                       
-                      <div className="flex items-center space-x-3">
-                        <div className="w-24 bg-gray-200 rounded-full h-2">
+                      <div className="flex items-center space-x-3 min-w-0 flex-1">
+                        <div className="flex-1 max-w-20 lg:max-w-24 bg-gray-200 rounded-full h-2 min-w-0">
                           <div 
                             className="bg-brand-600 h-2 rounded-full transition-all duration-500"
                             style={{ width: `${activity.progress}%` }}
                           />
                         </div>
-                        <span className="px-3 py-1 bg-brand-100 text-brand-600 text-sm font-medium rounded-full min-w-[3rem] text-center">
+                        <span className="px-2 lg:px-3 py-1 bg-brand-100 text-brand-600 text-sm font-medium rounded-full min-w-[2.5rem] lg:min-w-[3rem] text-center flex-shrink-0">
                           {activity.progress}%
                         </span>
                       </div>
                       
-                      <div className="text-right">
+                      <div className="text-right flex-shrink-0">
                         <p className="text-sm font-medium text-midnight-900">€{activity.totalCost}</p>
                         <p className="text-xs text-midnight-600">{activity.services.length} services</p>
                       </div>
                       
-                      <svg className="h-5 w-5 text-midnight-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="h-5 w-5 text-midnight-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
+                    </div>
+                  </div>
+
+                  {/* Mobile Layout */}
+                  <div className="md:hidden space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-brand-100 rounded-lg flex items-center justify-center">
+                          <svg className="h-5 w-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <h3 className="font-medium text-midnight-900 text-base">{activity.filename}</h3>
+                          <p className="text-xs text-midnight-600">{activity.type}</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-medium text-midnight-900">€{activity.totalCost}</p>
+                        <p className="text-xs text-midnight-600">{activity.services.length} services</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <p className="text-sm font-medium text-midnight-900">{activity.status}</p>
+                        <p className="text-xs text-midnight-600">• {activity.eta}</p>
+                      </div>
+                      <span className="px-2 py-1 bg-brand-100 text-brand-600 text-xs font-medium rounded-full">
+                        {activity.progress}%
+                      </span>
+                    </div>
+                    
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div 
+                        className="bg-brand-600 h-2 rounded-full transition-all duration-500"
+                        style={{ width: `${activity.progress}%` }}
+                      />
                     </div>
                   </div>
                 </motion.div>
@@ -625,14 +664,14 @@ export default function NotaryAIHome() {
                 stiffness: 300,
                 damping: 25
               }}
-              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl max-h-[80vh] overflow-hidden rounded-2xl"
+              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl max-h-[80vh] overflow-hidden rounded-2xl mx-4 sm:mx-0"
               style={{
                 boxShadow: '0 20px 25px -5px rgba(0, 31, 63, 0.2), 0 8px 10px -6px rgba(0, 31, 63, 0.15)'
               }}
             >
               <div className="bg-praxeti-200 rounded-2xl overflow-hidden border border-gray-200" onClick={(e) => e.stopPropagation()}>
                 {/* Compact Header with Brand Colors */}
-                <div className="bg-gradient-to-r from-brand-600 to-brand-700 p-6">
+                <div className="bg-gradient-to-r from-brand-600 to-brand-700 p-4 sm:p-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
@@ -641,7 +680,7 @@ export default function NotaryAIHome() {
                         </svg>
                       </div>
                       <div>
-                        <h2 className="text-xl font-semibold text-white">{selectedActivity.filename}</h2>
+                        <h2 className="text-lg sm:text-xl font-semibold text-white">{selectedActivity.filename}</h2>
                         <p className="text-brand-100 text-sm">{selectedActivity.type}</p>
                       </div>
                     </div>
@@ -673,27 +712,27 @@ export default function NotaryAIHome() {
                 </div>
 
                 {/* Condensed Content Section */}
-                <div className="p-6 space-y-6 max-h-[55vh] overflow-y-auto bg-white">
+                <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 max-h-[55vh] overflow-y-auto bg-white">
                   {/* Cost Summary - Condensed */}
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.15 }}
-                    className="flex justify-between items-center bg-gradient-to-br from-brand-50 via-brand-100 to-mantis-50 rounded-xl p-4 border border-brand-200"
+                    className="flex justify-between items-center bg-gradient-to-br from-brand-50 via-brand-100 to-mantis-50 rounded-xl p-3 sm:p-4 border border-brand-200"
                   >
                     <div>
-                      <h3 className="text-sm font-semibold text-midnight-900 uppercase tracking-wide">Total Investment</h3>
+                      <h3 className="text-xs sm:text-sm font-semibold text-midnight-900 uppercase tracking-wide">Total Investment</h3>
                       <p className="text-xs text-midnight-600">{selectedActivity.services.length} services included</p>
                     </div>
                     <div className="text-right">
-                      <span className="text-2xl font-bold text-brand-600">€{selectedActivity.totalCost}</span>
+                      <span className="text-xl sm:text-2xl font-bold text-brand-600">€{selectedActivity.totalCost}</span>
                       <p className="text-xs text-brand-700 font-medium">All fees included</p>
                     </div>
                   </motion.div>
                   {/* User Request */}
                   <div>
-                    <h3 className="text-base font-semibold text-midnight-900 mb-2">Request Details</h3>
-                    <div className="bg-praxeti-300 rounded-lg p-4">
+                    <h3 className="text-sm sm:text-base font-semibold text-midnight-900 mb-2">Request Details</h3>
+                    <div className="bg-praxeti-300 rounded-lg p-3 sm:p-4">
                       <p className="text-midnight-900 text-sm leading-relaxed">{selectedActivity.userRequest}</p>
                     </div>
                   </div>
@@ -704,8 +743,8 @@ export default function NotaryAIHome() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
                   >
-                    <h3 className="text-lg font-bold text-midnight-900 mb-5 flex items-center">
-                      <svg className="h-5 w-5 mr-2 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <h3 className="text-base sm:text-lg font-bold text-midnight-900 mb-4 sm:mb-5 flex items-center">
+                      <svg className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       Services Timeline
@@ -746,19 +785,19 @@ export default function NotaryAIHome() {
                           </div>
                           
                           {/* Service Details Card */}
-                          <div className="flex-1 bg-white rounded-2xl p-5 border border-gray-300 shadow-sm transition-shadow">
+                          <div className="flex-1 bg-white rounded-2xl p-4 sm:p-5 border border-gray-300 shadow-sm transition-shadow">
                             <div className="flex items-start justify-between mb-2">
-                              <h4 className="font-semibold text-midnight-900">{service.name}</h4>
-                              <span className="font-bold text-brand-600">€{service.cost}</span>
+                              <h4 className="font-semibold text-midnight-900 text-sm sm:text-base">{service.name}</h4>
+                              <span className="font-bold text-brand-600 text-sm sm:text-base">€{service.cost}</span>
                             </div>
                             <div className="flex items-center justify-between">
-                              <p className="text-sm text-midnight-600">
-                                <svg className="inline h-4 w-4 mr-1 text-midnight-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <p className="text-xs sm:text-sm text-midnight-600">
+                                <svg className="inline h-3 w-3 sm:h-4 sm:w-4 mr-1 text-midnight-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
                                 {service.duration}
                               </p>
-                              <span className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
+                              <span className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs font-semibold ${
                                 service.status === 'Completed' ? 'bg-mantis-100 text-mantis-700' :
                                 service.status === 'In Progress' ? 'bg-spring-100 text-spring-700' :
                                 'bg-gray-100 text-gray-700'

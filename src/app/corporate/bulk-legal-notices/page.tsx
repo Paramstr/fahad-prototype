@@ -92,8 +92,9 @@ export default function BulkLegalNoticesPage() {
 
       {/* Header */}
       <header className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6">
-          <div className="flex items-center justify-between">
+        <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-12 py-4 sm:py-6">
+          {/* Desktop: Header with inline progress bar */}
+          <div className="hidden lg:flex items-center justify-between">
             <div>
               <Link
                 href="/corporate"
@@ -104,62 +105,152 @@ export default function BulkLegalNoticesPage() {
                 </svg>
                 Back to Corporate Dashboard
               </Link>
-              <h1 className="text-3xl font-semibold text-midnight-900">Bulk Legal Notices</h1>
-              <p className="text-midnight-600 mt-1">Generate and notarize 350 legal notices for tenant management</p>
+              <h1 className="text-2xl sm:text-3xl font-semibold text-midnight-900">Bulk Legal Notices</h1>
+              <p className="text-sm sm:text-base text-midnight-600 mt-1">Generate and notarize 350 legal notices for tenant management</p>
             </div>
             
-            {notices.length > 0 && (
-              <div className="text-right">
-                <div className="text-sm text-midnight-600">Progress</div>
-                <div className="text-lg font-semibold text-mantis-600">
-                  Step {currentStep} of {steps.length}
-                </div>
+            {/* Desktop Progress Bar - Inline */}
+            <div className="flex items-center relative">
+              {/* All Steps */}
+              <div className="flex items-center space-x-6 relative">
+                {/* Full Progress Line - positioned to go through circle centers */}
+                <div className="absolute top-4 left-4 right-4 h-0.5 bg-gray-200 z-0" />
+                <div className="absolute top-4 left-4 h-0.5 bg-mantis-600 transition-all duration-700 z-0" 
+                     style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }} />
+                
+                {steps.map((step, index) => (
+                  <motion.div 
+                    key={step.id} 
+                    className="flex flex-col items-center relative z-10"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-semibold transition-all duration-300 bg-white ${
+                      step.status === 'completed' 
+                        ? 'bg-mantis-600 border-mantis-600 text-white shadow-lg' 
+                        : step.status === 'current'
+                          ? 'bg-mantis-800 border-mantis-800 text-white shadow-lg'
+                          : 'bg-white border-gray-300 text-gray-400'
+                    }`}>
+                      {step.status === 'completed' ? (
+                        <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      ) : (
+                        step.id
+                      )}
+                    </div>
+                    <div className="mt-1 text-center">
+                      <div className={`text-xs font-medium ${
+                        step.status === 'current' ? 'text-mantis-800' : 
+                        step.status === 'completed' ? 'text-midnight-900' : 'text-gray-400'
+                      }`}>
+                        {step.title}
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
-            )}
+            </div>
           </div>
           
-          {/* Progress Steps */}
-          <div className="mt-8">
-            <div className="flex items-center justify-between relative">
-              <div className="absolute top-5 left-0 w-full h-0.5 bg-gray-200" />
-              <div 
-                className="absolute top-5 left-0 h-0.5 bg-mantis-600 transition-all duration-700" 
-                style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
-              />
+          {/* Mobile: Header and progress bar stacked */}
+          <div className="lg:hidden">
+            {/* Mobile Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <Link
+                  href="/corporate"
+                  className="flex items-center gap-2 text-sm font-medium text-brand-600 hover:text-brand-700 mb-2"
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+                  Back to Corporate Dashboard
+                </Link>
+                <h1 className="text-2xl font-semibold text-midnight-900">Bulk Legal Notices</h1>
+                <p className="text-sm text-midnight-600 mt-1">Generate and notarize 350 legal notices for tenant management</p>
+              </div>
               
-              {steps.map((step) => (
-                <div key={step.id} className="relative flex flex-col items-center">
-                  <div className={`w-10 h-10 rounded-full border-2 flex items-center justify-center text-sm font-semibold z-10 transition-all duration-300 ${
-                    step.status === 'completed' 
-                      ? 'bg-mantis-600 border-mantis-600 text-white' 
-                      : step.status === 'current'
-                        ? 'bg-white border-mantis-600 text-mantis-600'
-                        : 'bg-white border-gray-300 text-gray-400'
-                  }`}>
-                    {step.status === 'completed' ? (
-                      <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    ) : (
-                      step.id
-                    )}
-                  </div>
-                  <div className="mt-2 text-center">
-                    <div className={`text-sm font-medium ${
-                      step.status !== 'pending' ? 'text-midnight-900' : 'text-gray-400'
-                    }`}>
-                      {step.title}
-                    </div>
-                    <div className="text-xs text-gray-500 hidden md:block">{step.description}</div>
+              {notices.length > 0 && (
+                <div className="text-right">
+                  <div className="text-xs text-midnight-600">Progress</div>
+                  <div className="text-sm font-semibold text-mantis-600">
+                    Step {currentStep} of {steps.length}
                   </div>
                 </div>
-              ))}
+              )}
+            </div>
+            
+            {/* Mobile Progress Bar - Below Header */}
+            <div className="flex items-center justify-center relative max-w-xs mx-auto">
+              {(() => {
+                const visibleSteps = [];
+                const prevStep = currentStep > 1 ? steps[currentStep - 2] : null;
+                const currentStepObj = steps[currentStep - 1];
+                const nextStep = currentStep < steps.length ? steps[currentStep] : null;
+                
+                if (prevStep) visibleSteps.push(prevStep);
+                visibleSteps.push(currentStepObj);
+                if (nextStep) visibleSteps.push(nextStep);
+                
+                return (
+                  <>
+                    {/* Connection Line */}
+                    <div className="absolute top-6 left-0 w-full h-0.5 bg-gray-200" />
+                    <div className="absolute top-6 left-0 h-0.5 bg-mantis-600 transition-all duration-700" 
+                         style={{ width: `${prevStep ? 50 : 0}%` }} />
+                    {nextStep && (
+                      <div className="absolute top-6 right-0 h-0.5 bg-mantis-600 transition-all duration-700" 
+                           style={{ width: `${currentStepObj.status === 'completed' ? 50 : 0}%` }} />
+                    )}
+                    
+                    {/* Visible Steps */}
+                    <div className="flex items-center justify-between w-full relative z-10">
+                      {visibleSteps.map((step, index) => (
+                        <motion.div 
+                          key={step.id} 
+                          className="flex flex-col items-center"
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.3, delay: index * 0.1 }}
+                        >
+                          <div className={`w-10 h-10 rounded-full border-2 flex items-center justify-center text-sm font-semibold transition-all duration-300 ${
+                            step.status === 'completed' 
+                              ? 'bg-mantis-600 border-mantis-600 text-white shadow-lg' 
+                              : step.status === 'current'
+                                ? 'bg-mantis-800 border-mantis-800 text-white shadow-lg'
+                                : 'bg-white border-gray-300 text-gray-400'
+                          }`}>
+                            {step.status === 'completed' ? (
+                              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            ) : (
+                              step.id
+                            )}
+                          </div>
+                          <div className="mt-2 text-center">
+                            <div className={`text-xs font-medium ${
+                              step.status === 'current' ? 'text-mantis-800' : 
+                              step.status === 'completed' ? 'text-midnight-900' : 'text-gray-400'
+                            }`}>
+                              {step.title}
+                            </div>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </>
+                );
+              })()}
             </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8">
         <AnimatePresence mode="wait">
           {/* Step 1: Choose Upload Method */}
           {currentStep === 1 && (
@@ -180,7 +271,9 @@ export default function BulkLegalNoticesPage() {
                   {/* ZIP Upload Option */}
                   <motion.div
                     className={`card p-8 cursor-pointer transition-all duration-300 ${
-                      uploadMethod === 'zip' ? 'ring-2 ring-brand-500 bg-brand-50' : 'hover:shadow-lg'
+                      uploadMethod === 'zip' 
+                        ? 'ring-2 ring-brand-700 bg-brand-50 border-brand-700' 
+                        : 'hover:shadow-lg active:ring-2 active:ring-brand-700 active:bg-brand-50 active:border-brand-700'
                     }`}
                     onClick={() => setUploadMethod('zip')}
                     whileHover={{ scale: 1.02, y: -4 }}
@@ -216,7 +309,9 @@ export default function BulkLegalNoticesPage() {
                   {/* Excel Template Option */}
                   <motion.div
                     className={`card p-8 cursor-pointer transition-all duration-300 ${
-                      uploadMethod === 'excel' ? 'ring-2 ring-brand-500 bg-brand-50' : 'hover:shadow-lg'
+                      uploadMethod === 'excel' 
+                        ? 'ring-2 ring-brand-700 bg-brand-50 border-brand-700' 
+                        : 'hover:shadow-lg active:ring-2 active:ring-brand-700 active:bg-brand-50 active:border-brand-700'
                     }`}
                     onClick={() => setUploadMethod('excel')}
                     whileHover={{ scale: 1.02, y: -4 }}
@@ -399,15 +494,15 @@ export default function BulkLegalNoticesPage() {
                   </div>
                 )}
 
-                <div className="flex justify-between mt-8">
+                <div className="flex flex-col sm:flex-row justify-between items-center mt-8 space-y-4 sm:space-y-0">
                   <button
                     onClick={prevStep}
-                    className="px-6 py-3 bg-praxeti-400 text-midnight-700 rounded-lg hover:bg-praxeti-500 transition-all duration-200 font-medium"
+                    className="btn btn-ghost w-full sm:w-auto"
                   >
                     ← Back
                   </button>
                   {notices.length === 0 && !isGenerating && (
-                    <div className="text-midnight-500">Upload or generate documents to continue</div>
+                    <div className="text-sm sm:text-base text-midnight-500 text-center sm:text-right">Upload or generate documents to continue</div>
                   )}
                 </div>
               </div>
@@ -487,20 +582,20 @@ export default function BulkLegalNoticesPage() {
                   </div>
                 )}
 
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row justify-between items-center mt-8 space-y-4 sm:space-y-0">
                   <button
                     onClick={prevStep}
-                    className="px-6 py-3 bg-praxeti-400 text-midnight-700 rounded-lg hover:bg-praxeti-500 transition-all duration-200 font-medium"
+                    className="btn btn-ghost w-full sm:w-auto"
                   >
                     ← Back
                   </button>
-                  <div className="flex space-x-4">
-                    <button className="px-6 py-3 bg-spring-600 text-white rounded-lg hover:bg-spring-700 transition-all duration-200 font-medium">
+                  <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
+                    <button className="btn btn-secondary w-full sm:w-auto">
                       Skip Issues ({issueNotices})
                     </button>
                     <button
                       onClick={nextStep}
-                      className="px-8 py-3 bg-mantis-600 text-white rounded-lg hover:bg-mantis-700 transition-all duration-200 font-medium"
+                      className="btn btn-primary w-full sm:w-auto"
                     >
                       Continue with {validNotices} Valid Documents →
                     </button>
@@ -530,7 +625,9 @@ export default function BulkLegalNoticesPage() {
                     <motion.div
                       key={notary.id}
                       className={`card p-6 cursor-pointer transition-all duration-300 ${
-                        selectedNotary === notary.id ? 'ring-2 ring-mantis-500 bg-mantis-50' : 'hover:shadow-lg'
+                        selectedNotary === notary.id 
+                          ? 'ring-2 ring-brand-700 bg-brand-50 border-brand-700' 
+                          : 'hover:shadow-lg active:ring-2 active:ring-brand-700 active:bg-brand-50 active:border-brand-700'
                       }`}
                       onClick={() => setSelectedNotary(notary.id)}
                       whileHover={{ scale: 1.01 }}
@@ -737,7 +834,9 @@ export default function BulkLegalNoticesPage() {
                     <motion.div
                       key={option.id}
                       className={`card p-6 cursor-pointer transition-all duration-300 ${
-                        deliveryMethod.includes(option.id) ? 'ring-2 ring-mantis-500 bg-mantis-50' : 'hover:shadow-lg'
+                        deliveryMethod.includes(option.id) 
+                          ? 'ring-2 ring-brand-700 bg-brand-50 border-brand-700' 
+                          : 'hover:shadow-lg active:ring-2 active:ring-brand-700 active:bg-brand-50 active:border-brand-700'
                       }`}
                       onClick={() => {
                         if (deliveryMethod.includes(option.id)) {

@@ -232,46 +232,46 @@ export default function CorporatePage() {
 
       {/* Corporate Dashboard Header */}
       <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-8">
-          <div className="flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-6 lg:space-y-0">
             <div>
-              <h1 className="text-3xl font-semibold text-midnight-900">Corporate Dashboard</h1>
-              <p className="text-lg text-midnight-600 mt-1">Bulk document processing and management</p>
+              <h1 className="text-2xl sm:text-3xl font-semibold text-midnight-900">Corporate Dashboard</h1>
+              <p className="text-base sm:text-lg text-midnight-600 mt-1">Bulk document processing and management</p>
             </div>
             
             {/* Quick Stats */}
-            <div className="flex items-center space-x-8">
+            <div className="grid grid-cols-2 lg:flex lg:items-center gap-4 sm:gap-6 lg:gap-8">
               <div className="text-center">
-                <div className="text-2xl font-bold text-midnight-900">{totalDocuments}</div>
-                <div className="text-sm text-midnight-600">Total Documents</div>
+                <div className="text-xl sm:text-2xl font-bold text-midnight-900">{totalDocuments}</div>
+                <div className="text-xs sm:text-sm text-midnight-600">Total Documents</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-mantis-600">{completedDocuments}</div>
-                <div className="text-sm text-midnight-600">Completed</div>
+                <div className="text-xl sm:text-2xl font-bold text-mantis-600">{completedDocuments}</div>
+                <div className="text-xs sm:text-sm text-midnight-600">Completed</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-spring-600">{processingDocuments}</div>
-                <div className="text-sm text-midnight-600">Processing</div>
+                <div className="text-xl sm:text-2xl font-bold text-spring-600">{processingDocuments}</div>
+                <div className="text-xs sm:text-sm text-midnight-600">Processing</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-brand-600">AED {totalValue.toLocaleString()}</div>
-                <div className="text-sm text-midnight-600">Total Value</div>
+                <div className="text-xl sm:text-2xl font-bold text-brand-600">AED {totalValue.toLocaleString()}</div>
+                <div className="text-xs sm:text-sm text-midnight-600">Total Value</div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8">
         {/* Corporate Services Section */}
         <motion.div 
-          className="mb-8"
+          className="mb-6 sm:mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-2xl font-semibold text-midnight-900 mb-6">Corporate Services</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <h2 className="text-xl sm:text-2xl font-semibold text-midnight-900 mb-4 sm:mb-6">Corporate Services</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             
             {/* Bulk Attestation Card - Enhanced Mesh Gradient Design (Teal Theme) */}
             <Link href="/corporate/bulk-attest">
@@ -314,19 +314,19 @@ export default function CorporatePage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-teal-400/0 via-teal-400/20 to-teal-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-600"></div>
                 
                 {/* Content Container with Enhanced Styling */}
-                <div className="relative z-10 p-8 border border-teal-400/30 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/5 via-white/2 to-transparent text-center">
-                  <div className="flex items-start justify-between mb-6">
+                <div className="relative z-10 p-4 sm:p-6 lg:p-8 border border-teal-400/30 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/5 via-white/2 to-transparent text-center">
+                  <div className="flex items-start justify-between mb-4 sm:mb-6">
                     <motion.div 
-                      className="mx-auto p-4 bg-gradient-to-br from-white/20 via-white/15 to-white/10 backdrop-blur-sm rounded-xl shadow-lg border border-white/20"
+                      className="mx-auto p-3 sm:p-4 bg-gradient-to-br from-white/20 via-white/15 to-white/10 backdrop-blur-sm rounded-xl shadow-lg border border-white/20"
                       whileHover={{ scale: 1.1, rotate: -3 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <svg className="h-10 w-10 text-spring-400 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="h-8 w-8 sm:h-10 sm:w-10 text-spring-400 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
                     </motion.div>
                     <motion.div 
-                      className="opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center space-x-1 text-xs text-spring-300 bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20 absolute bottom-6 right-6"
+                      className="opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center space-x-1 text-xs text-spring-300 bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20 absolute bottom-4 right-4 sm:bottom-6 sm:right-6"
                       initial={{ x: 0 }}
                       whileHover={{ x: 0 }}
                     >
@@ -337,10 +337,10 @@ export default function CorporatePage() {
                     </motion.div>
                   </div>
                   
-                  <h3 className="text-3xl font-bold text-white mb-4 leading-tight drop-shadow-lg">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4 leading-tight drop-shadow-lg">
                     Bulk Document Attestation
                   </h3>
-                  <p className="text-praxeti-300 text-base mb-4 leading-relaxed">
+                  <p className="text-praxeti-300 text-sm sm:text-base mb-4 leading-relaxed">
                     Upload multiple documents for batch attestation processing with AI-powered analysis
                   </p>
                 </div>
@@ -399,19 +399,19 @@ export default function CorporatePage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-nuit-400/0 via-spring-400/20 to-nuit-400/0 opacity-0 group-hover:opacity-10 transition-opacity duration-600"></div>
                 
                 {/* Content Container with Enhanced Styling */}
-                <div className="relative z-10 p-8 border border-nuit-400/30 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/5 via-white/2 to-transparent text-center">
-                  <div className="flex items-start justify-between mb-6">
+                <div className="relative z-10 p-4 sm:p-6 lg:p-8 border border-nuit-400/30 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/5 via-white/2 to-transparent text-center">
+                  <div className="flex items-start justify-between mb-4 sm:mb-6">
                     <motion.div 
-                      className="mx-auto p-4 bg-gradient-to-br from-white/20 via-white/15 to-white/10 backdrop-blur-sm rounded-xl shadow-lg border border-white/20"
+                      className="mx-auto p-3 sm:p-4 bg-gradient-to-br from-white/20 via-white/15 to-white/10 backdrop-blur-sm rounded-xl shadow-lg border border-white/20"
                       whileHover={{ scale: 1.1, rotate: -3 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <svg className="h-10 w-10 text-spring-400 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="h-8 w-8 sm:h-10 sm:w-10 text-spring-400 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                       </svg>
                     </motion.div>
                     <motion.div 
-                      className="opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center space-x-1 text-xs text-spring-300 bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20 absolute bottom-6 right-6"
+                      className="opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center space-x-1 text-xs text-spring-300 bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20 absolute bottom-4 right-4 sm:bottom-6 sm:right-6"
                       initial={{ x: 0 }}
                       whileHover={{ x: 0 }}
                     >
@@ -422,10 +422,10 @@ export default function CorporatePage() {
                     </motion.div>
                   </div>
                   
-                  <h3 className="text-3xl font-bold text-white mb-4 leading-tight drop-shadow-lg">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4 leading-tight drop-shadow-lg">
                     Bulk Legal Notices
                   </h3>
-                  <p className="text-praxeti-300 text-base mb-4 leading-relaxed">
+                  <p className="text-praxeti-300 text-sm sm:text-base mb-4 leading-relaxed">
                     Generate and notarize bulk legal notices with AI-powered document creation
                   </p>
                 </div>
@@ -445,15 +445,15 @@ export default function CorporatePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-midnight-900">Recent Activity</h2>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 space-y-4 sm:space-y-0">
+            <h2 className="text-lg sm:text-xl font-semibold text-midnight-900">Recent Activity</h2>
             
-            <div className="flex items-center space-x-4">
+            <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
               {/* Demo Button */}
               <button
                 onClick={simulateBulkUpload}
                 disabled={isUploading}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 w-full sm:w-auto ${
                   isUploading 
                     ? 'bg-gray-400 text-white cursor-not-allowed' 
                     : 'bg-nuit-600 text-white hover:bg-nuit-700'
@@ -463,12 +463,12 @@ export default function CorporatePage() {
               </button>
               
               {/* Filter buttons */}
-              <div className="flex space-x-2">
+              <div className="flex flex-wrap gap-2">
                 {['All', 'Processing', 'Completed', 'Error'].map((filter) => (
                   <button
                     key={filter}
                     onClick={() => setActiveFilter(filter)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                       activeFilter === filter
                         ? 'bg-brand-600 text-white shadow-sm'
                         : 'bg-praxeti-300 text-midnight-900 hover:bg-praxeti-400'
@@ -495,61 +495,106 @@ export default function CorporatePage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.2 }}
-                    className="flex items-center justify-between p-4 hover:bg-praxeti-200 transition-colors duration-150 cursor-pointer border-b border-gray-100 last:border-b-0"
+                    className="p-4 hover:bg-praxeti-200 transition-colors duration-150 cursor-pointer border-b border-gray-100 last:border-b-0"
                     onClick={() => setSelectedDocument(doc)}
                   >
-                    {/* Document Info */}
-                    <div className="flex items-center space-x-4 flex-1 min-w-0">
-                      <div className="flex-shrink-0 h-10 w-10">
-                        <div className="h-10 w-10 bg-brand-100 rounded-lg flex items-center justify-center">
-                          <svg className="h-5 w-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
+                    {/* Desktop Layout */}
+                    <div className="hidden sm:flex items-center justify-between">
+                      {/* Document Info */}
+                      <div className="flex items-center space-x-4 flex-1 min-w-0">
+                        <div className="flex-shrink-0 h-10 w-10">
+                          <div className="h-10 w-10 bg-brand-100 rounded-lg flex items-center justify-center">
+                            <svg className="h-5 w-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between">
+                            <div className="truncate">
+                              <div className="text-sm font-medium text-midnight-900 truncate">{doc.filename}</div>
+                              <div className="text-xs text-midnight-600">{doc.type} • {doc.size} • {formatDate(doc.uploadedAt)}</div>
+                            </div>
+                          </div>
+                          {/* Progress Bar */}
+                          <div className="mt-2 flex items-center space-x-3">
+                            <div className="flex-1 bg-gray-200 rounded-full h-1.5 max-w-32">
+                              <motion.div 
+                                className="bg-brand-600 h-1.5 rounded-full"
+                                initial={{ width: 0 }}
+                                animate={{ width: `${doc.progress}%` }}
+                                transition={{ duration: 0.5 }}
+                              />
+                            </div>
+                            <span className="text-xs text-midnight-600 min-w-[3rem] flex-shrink-0">{doc.progress}%</span>
+                          </div>
                         </div>
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between">
-                          <div className="truncate">
-                            <div className="text-sm font-medium text-midnight-900 truncate">{doc.filename}</div>
-                            <div className="text-xs text-midnight-600">{doc.type} • {doc.size} • {formatDate(doc.uploadedAt)}</div>
+
+                      {/* Status & Cost */}
+                      <div className="flex items-center space-x-4 flex-shrink-0">
+                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(doc.status)}`}>
+                          {doc.status}
+                        </span>
+                        <div className="text-right min-w-[4rem]">
+                          <div className="text-sm font-medium text-midnight-900">
+                            {doc.totalCost ? `AED ${doc.totalCost}` : doc.analysisResult?.estimatedCost ? `~${doc.analysisResult.estimatedCost}` : '-'}
                           </div>
                         </div>
-                        {/* Progress Bar */}
-                        <div className="mt-2 flex items-center space-x-3">
-                          <div className="flex-1 bg-gray-200 rounded-full h-1.5">
-                            <motion.div 
-                              className="bg-brand-600 h-1.5 rounded-full"
-                              initial={{ width: 0 }}
-                              animate={{ width: `${doc.progress}%` }}
-                              transition={{ duration: 0.5 }}
-                            />
-                          </div>
-                          <span className="text-xs text-midnight-600 min-w-[3rem]">{doc.progress}%</span>
-                        </div>
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedDocument(doc);
+                          }}
+                          className="text-brand-600 hover:text-brand-900 p-1"
+                        >
+                          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </button>
                       </div>
                     </div>
 
-                    {/* Status & Cost */}
-                    <div className="flex items-center space-x-4 flex-shrink-0">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(doc.status)}`}>
-                        {doc.status}
-                      </span>
-                      <div className="text-right min-w-[4rem]">
-                        <div className="text-sm font-medium text-midnight-900">
-                          {doc.totalCost ? `AED ${doc.totalCost}` : doc.analysisResult?.estimatedCost ? `~${doc.analysisResult.estimatedCost}` : '-'}
+                    {/* Mobile Layout */}
+                    <div className="sm:hidden space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <div className="h-8 w-8 bg-brand-100 rounded-lg flex items-center justify-center">
+                            <svg className="h-4 w-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="text-sm font-medium text-midnight-900 truncate">{doc.filename}</div>
+                            <div className="text-xs text-midnight-600">{doc.type} • {doc.size}</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(doc.status)}`}>
+                            {doc.status}
+                          </span>
+                          <div className="text-right">
+                            <div className="text-sm font-medium text-midnight-900">
+                              {doc.totalCost ? `AED ${doc.totalCost}` : doc.analysisResult?.estimatedCost ? `~${doc.analysisResult.estimatedCost}` : '-'}
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <button 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedDocument(doc);
-                        }}
-                        className="text-brand-600 hover:text-brand-900 p-1"
-                      >
-                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </button>
+                      
+                      {/* Mobile Progress Bar */}
+                      <div className="flex items-center space-x-3">
+                        <div className="flex-1 bg-gray-200 rounded-full h-1.5">
+                          <motion.div 
+                            className="bg-brand-600 h-1.5 rounded-full"
+                            initial={{ width: 0 }}
+                            animate={{ width: `${doc.progress}%` }}
+                            transition={{ duration: 0.5 }}
+                          />
+                        </div>
+                        <span className="text-xs text-midnight-600 min-w-[3rem] flex-shrink-0">{doc.progress}%</span>
+                      </div>
+                      
+                      <div className="text-xs text-midnight-600">{formatDate(doc.uploadedAt)}</div>
                     </div>
                   </motion.div>
                 ))}
@@ -576,26 +621,26 @@ export default function CorporatePage() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-4xl max-h-[80vh] overflow-hidden rounded-2xl shadow-2xl"
+              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-4xl max-h-[80vh] overflow-hidden rounded-2xl shadow-2xl mx-4 sm:mx-0"
             >
               <div className="bg-white" onClick={(e) => e.stopPropagation()}>
                 {/* Modal Header */}
-                <div className="bg-gradient-to-r from-brand-600 to-brand-700 p-6">
+                <div className="bg-gradient-to-r from-brand-600 to-brand-700 p-4 sm:p-6">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                        <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex items-center space-x-4 min-w-0">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                        <svg className="h-5 w-5 sm:h-6 sm:w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                       </div>
-                      <div>
-                        <h2 className="text-xl font-semibold text-white">{selectedDocument.filename}</h2>
-                        <p className="text-brand-100 text-sm">{selectedDocument.type}</p>
+                      <div className="min-w-0">
+                        <h2 className="text-lg sm:text-xl font-semibold text-white truncate">{selectedDocument.filename}</h2>
+                        <p className="text-brand-100 text-sm truncate">{selectedDocument.type}</p>
                       </div>
                     </div>
                     <button
                       onClick={() => setSelectedDocument(null)}
-                      className="p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors"
+                      className="p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors flex-shrink-0"
                     >
                       <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -621,14 +666,14 @@ export default function CorporatePage() {
                 </div>
 
                 {/* Modal Content */}
-                <div className="p-6 space-y-6 max-h-[60vh] overflow-y-auto">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 max-h-[60vh] overflow-y-auto">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                     {/* Document Preview */}
                     <div className="space-y-4">
-                      <h3 className="text-lg font-semibold text-midnight-900">Document Preview</h3>
-                      <div className="bg-praxeti-300 rounded-lg p-8 text-center min-h-[300px] flex items-center justify-center">
+                      <h3 className="text-base sm:text-lg font-semibold text-midnight-900">Document Preview</h3>
+                      <div className="bg-praxeti-300 rounded-lg p-6 sm:p-8 text-center min-h-[250px] sm:min-h-[300px] flex items-center justify-center">
                         <div className="text-center">
-                          <svg className="h-20 w-20 text-midnight-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="h-16 w-16 sm:h-20 sm:w-20 text-midnight-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                           </svg>
                           <p className="text-midnight-600">Document preview</p>
@@ -639,7 +684,7 @@ export default function CorporatePage() {
 
                     {/* Document Details */}
                     <div className="space-y-4">
-                      <h3 className="text-lg font-semibold text-midnight-900">Analysis Results</h3>
+                      <h3 className="text-base sm:text-lg font-semibold text-midnight-900">Analysis Results</h3>
                       
                       {selectedDocument.analysisResult ? (
                         <div className="space-y-4">
@@ -711,9 +756,9 @@ export default function CorporatePage() {
 
                   {/* File Metadata */}
                   <div>
-                    <h3 className="text-lg font-semibold text-midnight-900 mb-4">File Information</h3>
+                    <h3 className="text-base sm:text-lg font-semibold text-midnight-900 mb-4">File Information</h3>
                     <div className="bg-praxeti-300 rounded-lg p-4">
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
                         <div>
                           <span className="font-medium text-midnight-900">File Size:</span>
                           <p className="text-midnight-600">{selectedDocument.size}</p>

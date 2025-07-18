@@ -11,6 +11,16 @@ interface ProgressBarProps {
 }
 
 export default function ProgressBar({ currentStep, steps }: ProgressBarProps) {
+  // Get visible steps (current step + 1 behind + 1 ahead)
+  const visibleSteps = [];
+  const prevStep = currentStep > 1 ? steps[currentStep - 2] : null;
+  const currentStepObj = steps[currentStep - 1];
+  const nextStep = currentStep < steps.length ? steps[currentStep] : null;
+  
+  if (prevStep) visibleSteps.push(prevStep);
+  if (currentStepObj) visibleSteps.push(currentStepObj);
+  if (nextStep) visibleSteps.push(nextStep);
+
   return (
     <div className="inline-flex items-center justify-center relative">
       {/* Background Line */}
@@ -21,14 +31,14 @@ export default function ProgressBar({ currentStep, steps }: ProgressBarProps) {
         style={{ width: `${Math.min(((currentStep - 1) / (steps.length - 1)) * 100, 100)}%` }}
       />
 
-      {steps.map((step) => (
+      {visibleSteps.map((step) => (
         <div key={step.id} className="relative px-8 sm:px-12 first:pl-0 last:pr-0">
           <div className="flex flex-col items-center w-40 text-center">
             <div className={`relative flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-500 z-10 ${
               step.id === currentStep 
-                ? 'bg-brand-600 border-brand-600 text-white shadow-lg' 
+                ? 'bg-mantis-800 border-mantis-800 text-white shadow-lg' 
                 : step.id < currentStep 
-                  ? 'bg-brand-600 border-brand-600 text-white' 
+                  ? 'bg-mantis-600 border-mantis-600 text-white' 
                   : 'bg-white border-gray-300 text-gray-400'
             }`}>
               {step.id < currentStep ? (
@@ -41,6 +51,7 @@ export default function ProgressBar({ currentStep, steps }: ProgressBarProps) {
             </div>
             <div className="mt-4">
               <div className={`font-semibold transition-colors duration-300 ${
+                step.id === currentStep ? 'text-mantis-800' : 
                 step.id <= currentStep ? 'text-midnight-900' : 'text-gray-400'
               }`}>
                 {step.title}
