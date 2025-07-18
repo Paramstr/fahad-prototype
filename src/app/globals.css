@@ -630,6 +630,10 @@
     background: linear-gradient(135deg, var(--color-brand-800) 0%, var(--color-brand-900) 100%);
   }
 
+  .gradient-notary {
+    background: linear-gradient(135deg, var(--color-nuit-800) 0%, var(--color-nuit-900) 100%);
+  }
+
   .gradient-secondary {
     background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-hover) 100%);
   }
