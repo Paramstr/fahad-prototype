@@ -40,18 +40,25 @@ export default function AttestPage() {
   const [isDragOver, setIsDragOver] = useState(false);
 
   // Compress image to reduce size for API
-  const compressImage = async (base64String: string, maxWidth: number = 1200): Promise<string> => {
+  const compressImage = async (base64String: string, maxSizeKB: number = 4000): Promise<string> => {
     return new Promise((resolve) => {
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement('canvas');
         let width = img.width;
         let height = img.height;
+        let quality = 0.9;
 
-        // Calculate new dimensions
-        if (width > maxWidth) {
-          height = (maxWidth / width) * height;
-          width = maxWidth;
+        // Start with reasonable dimensions
+        const maxDimension = 1500;
+        if (width > maxDimension || height > maxDimension) {
+          if (width > height) {
+            height = (maxDimension / width) * height;
+            width = maxDimension;
+          } else {
+            width = (maxDimension / height) * width;
+            height = maxDimension;
+          }
         }
 
         canvas.width = width;
@@ -60,8 +67,25 @@ export default function AttestPage() {
         const ctx = canvas.getContext('2d')!;
         ctx.drawImage(img, 0, 0, width, height);
 
-        // Convert to base64 with compression
-        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+        // Progressively reduce quality until file size is acceptable
+        let compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+        
+        while (compressedBase64.length > maxSizeKB * 1024 && quality > 0.1) {
+          quality -= 0.1;
+          compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+        }
+
+        // If still too large, reduce dimensions
+        if (compressedBase64.length > maxSizeKB * 1024) {
+          width = width * 0.8;
+          height = height * 0.8;
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+          compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+        }
+
+        console.log(`Image compressed: ${(base64String.length / 1024).toFixed(0)}KB -> ${(compressedBase64.length / 1024).toFixed(0)}KB`);
         resolve(compressedBase64);
       };
       img.src = base64String;
@@ -160,6 +184,14 @@ export default function AttestPage() {
   };
 
   const handleFileUpload = useCallback((file: File) => {
+    // Check file size - Vercel has a 4.5MB limit for serverless functions
+    const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4MB to be safe
+    
+    if (file.size > MAX_FILE_SIZE) {
+      alert(`File is too large (${formatFileSize(file.size)}). Please use a file smaller than 4MB or compress the image further.\\n\\nFor production apps, consider using cloud storage services like Cloudinary, AWS S3, or Vercel Blob.`);
+      return;
+    }
+
     const uploadedFile: UploadedFile = {
       file,
       name: file.name,
@@ -172,11 +204,20 @@ export default function AttestPage() {
     reader.onload = async (e) => {
       let base64Result = e.target?.result as string;
       
-      // Compress images to avoid 413 errors
-      if (file.type.startsWith('image/') && file.size > 1024 * 1024) { // If image > 1MB
-        console.log('Compressing large image:', formatFileSize(file.size));
-        base64Result = await compressImage(base64Result);
-        console.log('Image compressed');
+      // Compress images to avoid 413 errors - compress all images to ensure they fit
+      if (file.type.startsWith('image/')) {
+        console.log('Compressing image:', formatFileSize(file.size));
+        base64Result = await compressImage(base64Result, 4000); // Target 4MB max
+        
+        // Final size check after compression
+        const compressedSizeKB = base64Result.length / 1024;
+        console.log('Compressed size:', compressedSizeKB.toFixed(0), 'KB');
+        
+        if (compressedSizeKB > 4000) { // If still over 4MB after compression
+          alert('Image is still too large after compression. Please use a smaller image or try a different file format.');
+          setIsAnalyzing(false);
+          return;
+        }
       }
       
       uploadedFile.content = base64Result; // Store base64 for AI analysis

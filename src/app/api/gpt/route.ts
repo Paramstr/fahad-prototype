@@ -6,13 +6,16 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || '',
 });
 
+export const maxDuration = 60; // Maximum allowed duration for Vercel Hobby is 60s
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
-    // Check request size
+    // Check request size - Vercel has a 4.5MB limit for serverless functions
     const contentLength = request.headers.get('content-length');
     if (contentLength && parseInt(contentLength) > 4.5 * 1024 * 1024) {
       return NextResponse.json({ 
-        error: 'Request too large. Please upload smaller images or documents (max 4.5MB).'
+        error: 'Request too large. Vercel serverless functions have a 4.5MB limit. Please compress your image or consider using cloud storage.'
       }, { status: 413 });
     }
 
@@ -54,7 +57,7 @@ export async function POST(request: NextRequest) {
 interface DocumentAnalysisParams {
   fileName: string;
   fileType: string;
-  fileBase64: string;
+  fileBase64: string | string[]; // Support multiple files (e.g., PDF pages)
 }
 
 async function handleDocumentAnalysis(params: DocumentAnalysisParams) {
@@ -73,7 +76,11 @@ async function handleDocumentAnalysis(params: DocumentAnalysisParams) {
     }, { status: 400 });
   }
 
-  console.log('Processing document:', fileName, 'Type:', fileType, 'Base64 length:', fileBase64.length);
+  // Handle multiple files (e.g., PDF pages)
+  const files = Array.isArray(fileBase64) ? fileBase64 : [fileBase64];
+  const totalSize = files.reduce((sum, file) => sum + file.length, 0);
+  const fileSizeMB = (totalSize * 0.75 / 1024 / 1024).toFixed(2); // Base64 is ~33% larger
+  console.log('Processing document:', fileName, 'Type:', fileType, 'Files:', files.length, 'Total Size:', fileSizeMB, 'MB');
 
   const visionPrompt = `Analyze this legal document for UAE processing. Respond ONLY with valid JSON in this exact format:
 
@@ -102,24 +109,30 @@ File: "${fileName}"
 Provide 3-5 concise, actionable recommendations for UAE legal compliance and notarization. Focus on practical next steps.`;
 
   try {
+    // Build content array with text prompt and all image files
+    const content = [
+      {
+        type: "text",
+        text: files.length > 1 ? 
+          `${visionPrompt}\n\nThis document has ${files.length} pages. Please analyze all pages together.` : 
+          visionPrompt
+      },
+      // Add all files as image_url entries
+      ...files.map(file => ({
+        type: "image_url",
+        image_url: {
+          url: file.startsWith('http') ? file : file, // Support both URLs and base64
+          detail: "high" // Use high detail for better accuracy
+        }
+      }))
+    ];
+
     const completion = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
         {
           role: "user",
-          content: [
-            {
-              type: "text",
-              text: visionPrompt
-            },
-            {
-              type: "image_url",
-              image_url: {
-                url: fileBase64,
-                detail: "high" // Use high detail for better accuracy
-              }
-            }
-          ]
+          content: content
         }
       ],
       max_tokens: 2000,
