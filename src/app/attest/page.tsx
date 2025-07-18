@@ -49,6 +49,13 @@ export default function AttestPage() {
         let height = img.height;
         let quality = 0.9;
 
+        // Detect original format from base64 string
+        const isPNG = base64String.startsWith('data:image/png');
+        const isJPEG = base64String.startsWith('data:image/jpeg') || base64String.startsWith('data:image/jpg');
+        
+        // Use appropriate format - PNG for transparency, JPEG for photos
+        const outputFormat = isPNG ? 'image/png' : 'image/jpeg';
+
         // Start with reasonable dimensions
         const maxDimension = 1500;
         if (width > maxDimension || height > maxDimension) {
@@ -68,11 +75,14 @@ export default function AttestPage() {
         ctx.drawImage(img, 0, 0, width, height);
 
         // Progressively reduce quality until file size is acceptable
-        let compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+        let compressedBase64 = canvas.toDataURL(outputFormat, quality);
         
-        while (compressedBase64.length > maxSizeKB * 1024 && quality > 0.1) {
-          quality -= 0.1;
-          compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+        // Only reduce quality for JPEG (PNG doesn't support quality parameter)
+        if (isJPEG) {
+          while (compressedBase64.length > maxSizeKB * 1024 && quality > 0.1) {
+            quality -= 0.1;
+            compressedBase64 = canvas.toDataURL(outputFormat, quality);
+          }
         }
 
         // If still too large, reduce dimensions
@@ -82,7 +92,7 @@ export default function AttestPage() {
           canvas.width = width;
           canvas.height = height;
           ctx.drawImage(img, 0, 0, width, height);
-          compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+          compressedBase64 = canvas.toDataURL(outputFormat, isPNG ? undefined : 0.7);
         }
 
         console.log(`Image compressed: ${(base64String.length / 1024).toFixed(0)}KB -> ${(compressedBase64.length / 1024).toFixed(0)}KB`);
@@ -141,7 +151,8 @@ export default function AttestPage() {
       const analysis = data.analysis;
       
       // Update state with AI analysis results
-      setDocumentType(analysis.documentType || 'Unknown Document');
+      const detectedType = analysis.documentType || 'Unknown Document';
+      setDocumentType(detectedType === 'Unknown Document' ? 'Other' : detectedType);
       setAnalysisResults(analysis);
       
       // Log analysis for debugging
@@ -165,7 +176,7 @@ export default function AttestPage() {
     { id: 4, title: 'Payment', description: 'Confirm & Pay' }
   ];
 
-  const documentTypes = [
+  const defaultDocumentTypes = [
     'Birth Certificate',
     'Educational Certificate',
     'Marriage Certificate',
@@ -174,6 +185,18 @@ export default function AttestPage() {
     'Court Order',
     'Other'
   ];
+
+  // Create dynamic document types list that includes AI-detected type
+  const getDocumentTypes = () => {
+    const detectedType = analysisResults?.documentType;
+    if (detectedType && !defaultDocumentTypes.includes(detectedType)) {
+      // Add the AI-detected type before 'Other'
+      const typesWithDetected = [...defaultDocumentTypes];
+      typesWithDetected.splice(-1, 0, detectedType); // Insert before 'Other'
+      return typesWithDetected;
+    }
+    return defaultDocumentTypes;
+  };
 
   const formatFileSize = (bytes: number) => {
     if (bytes === 0) return '0 Bytes';
@@ -237,7 +260,7 @@ export default function AttestPage() {
         setCurrentStep(2);
       }).catch((error) => {
         console.error('Document analysis failed:', error);
-        setDocumentType('Unknown Document');
+        setDocumentType('Other'); // Default to 'Other' instead of 'Unknown Document'
         setAnalysisProgress('Analysis failed');
         setTimeout(() => {
           setCurrentStep(2);
@@ -660,7 +683,7 @@ export default function AttestPage() {
                     onChange={(e) => setDocumentType(e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-midnight-900 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
                   >
-                    {documentTypes.map(type => (
+                    {getDocumentTypes().map(type => (
                       <option key={type} value={type}>{type}</option>
                     ))}
                   </select>

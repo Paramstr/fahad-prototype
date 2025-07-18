@@ -123,7 +123,7 @@ export default function NotarizePage() {
     { id: 4, title: 'Payment', description: 'Confirm & Pay' }
   ];
 
-  const documentTypes = [
+  const defaultDocumentTypes = [
     'Birth Certificate',
     'Power of Attorney',
     'Contract',
@@ -132,6 +132,18 @@ export default function NotarizePage() {
     'Marriage Certificate',
     'Other'
   ];
+
+  // Create dynamic document types list that includes AI-detected type
+  const getDocumentTypes = () => {
+    const detectedType = documentType; // Use the current documentType which is set by AI detection
+    if (detectedType && !defaultDocumentTypes.includes(detectedType)) {
+      // Add the AI-detected type before 'Other'
+      const typesWithDetected = [...defaultDocumentTypes];
+      typesWithDetected.splice(-1, 0, detectedType); // Insert before 'Other'
+      return typesWithDetected;
+    }
+    return defaultDocumentTypes;
+  };
 
   const formatFileSize = (bytes: number) => {
     if (bytes === 0) return '0 Bytes';
@@ -142,8 +154,8 @@ export default function NotarizePage() {
   };
 
   const detectDocCategory = () => {
-    // Stubbed function for document category detection
-    const categories = ['Birth Certificate', 'Power of Attorney', 'Contract', 'Court Order', 'Academic Certificate'];
+    // Stubbed function for document category detection - can return any document type
+    const categories = ['Birth Certificate', 'Power of Attorney', 'Contract', 'Court Order', 'Academic Certificate', 'Marriage Certificate', 'Passport', 'Driving License', 'Insurance Policy', 'Employment Contract'];
     return categories[Math.floor(Math.random() * categories.length)];
   };
 
@@ -471,7 +483,7 @@ export default function NotarizePage() {
                         onChange={(e) => setDocumentType(e.target.value)}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-midnight-900 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
                       >
-                        {documentTypes.map(type => (
+                        {getDocumentTypes().map(type => (
                           <option key={type} value={type}>{type}</option>
                         ))}
                       </select>
