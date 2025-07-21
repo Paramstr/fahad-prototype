@@ -11,15 +11,8 @@ interface ProgressBarProps {
 }
 
 export default function ProgressBar({ currentStep, steps }: ProgressBarProps) {
-  // Get visible steps (current step + 1 behind + 1 ahead)
-  const visibleSteps = [];
-  const prevStep = currentStep > 1 ? steps[currentStep - 2] : null;
-  const currentStepObj = steps[currentStep - 1];
-  const nextStep = currentStep < steps.length ? steps[currentStep] : null;
-  
-  if (prevStep) visibleSteps.push(prevStep);
-  if (currentStepObj) visibleSteps.push(currentStepObj);
-  if (nextStep) visibleSteps.push(nextStep);
+  // Show all steps
+  const visibleSteps = steps;
 
   return (
     <div className="inline-flex items-center justify-center relative">
@@ -32,8 +25,8 @@ export default function ProgressBar({ currentStep, steps }: ProgressBarProps) {
       />
 
       {visibleSteps.map((step) => (
-        <div key={step.id} className="relative px-8 sm:px-12 first:pl-0 last:pr-0">
-          <div className="flex flex-col items-center w-40 text-center">
+        <div key={step.id} className="relative px-4 sm:px-8 first:pl-0 last:pr-0">
+          <div className="flex flex-col items-center w-32 text-center">
             <div className={`relative flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-500 z-10 ${
               step.id === currentStep 
                 ? 'bg-mantis-800 border-mantis-800 text-white shadow-lg' 
