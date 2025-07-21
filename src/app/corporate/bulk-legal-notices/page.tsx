@@ -126,16 +126,16 @@ export default function BulkLegalNoticesPage() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
                   >
-                    <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-semibold transition-all duration-300 bg-white ${
+                    <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-semibold transition-all duration-300 ${
                       step.status === 'completed' 
-                        ? 'bg-mantis-600 border-mantis-600 text-white shadow-lg' 
+                        ? 'bg-mantis-600 border-mantis-600 text-white shadow-lg ring-2 ring-mantis-600/30' 
                         : step.status === 'current'
                           ? 'bg-mantis-800 border-mantis-800 text-white shadow-lg'
                           : 'bg-white border-gray-300 text-gray-400'
                     }`}>
                       {step.status === 'completed' ? (
-                        <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                         </svg>
                       ) : (
                         step.id
