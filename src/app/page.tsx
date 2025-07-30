@@ -103,7 +103,7 @@ export default function NotaryAIHome() {
 
   return (
     <div className="min-h-screen bg-praxeti-100">
-      {/* Background SVG Patterns - Legal-themed subtle textures */}
+      {/* Background SVG Patterns - Legal-themed subtle textures... */}
       <svg className="absolute inset-0 w-full h-full opacity-3 pointer-events-none" style={{zIndex: 1}}>
         <defs>
           <pattern id="legal-grid" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
