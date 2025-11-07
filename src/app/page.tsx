@@ -30,6 +30,8 @@ export default function NotaryAIHome() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [activities, setActivities] = useState<Activity[]>([]);
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
+  const [showWalkthrough, setShowWalkthrough] = useState(false);
+  const [navHighlightRect, setNavHighlightRect] = useState<{ top: number; left: number; width: number; height: number } | null>(null);
 
   // Load activities from localStorage on component mount
   useEffect(() => {
@@ -93,6 +95,53 @@ export default function NotaryAIHome() {
       localStorage.setItem('notaryActivities', JSON.stringify(defaultActivities));
     }
   }, []);
+
+  useEffect(() => {
+    const hasSeenWalkthrough = localStorage.getItem('notaryDemoWalkthrough');
+    if (!hasSeenWalkthrough) {
+      const timer = setTimeout(() => setShowWalkthrough(true), 400);
+      return () => clearTimeout(timer);
+    }
+    return;
+  }, []);
+
+  useEffect(() => {
+    if (!showWalkthrough || typeof window === 'undefined') {
+      setNavHighlightRect(null);
+      return;
+    }
+
+    const updateRect = () => {
+      const target = document.getElementById('navbar-mode-switch');
+      if (target) {
+        const rect = target.getBoundingClientRect();
+        if (rect.width && rect.height) {
+          setNavHighlightRect({
+            top: rect.top,
+            left: rect.left,
+            width: rect.width,
+            height: rect.height
+          });
+          return;
+        }
+      }
+      setNavHighlightRect(null);
+    };
+
+    updateRect();
+    window.addEventListener('resize', updateRect);
+    window.addEventListener('scroll', updateRect, true);
+
+    return () => {
+      window.removeEventListener('resize', updateRect);
+      window.removeEventListener('scroll', updateRect, true);
+    };
+  }, [showWalkthrough]);
+
+  const acknowledgeWalkthrough = () => {
+    localStorage.setItem('notaryDemoWalkthrough', 'true');
+    setShowWalkthrough(false);
+  };
 
   const filteredActivities = activities.filter(activity => {
     if (activeFilter === 'All') return true;
@@ -168,7 +217,114 @@ export default function NotaryAIHome() {
       </svg>
 
       {/* Navigation Header */}
-      <Navbar/>
+      <Navbar
+        forceModeDropdown={showWalkthrough}
+        onInfoClick={() => {
+          setShowWalkthrough(true);
+        }}
+      />
+      <AnimatePresence>
+        {showWalkthrough && (
+          <motion.div
+            className="fixed inset-0 z-[70] flex items-center justify-center px-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.button
+              type="button"
+              aria-label="Dismiss walkthrough overlay"
+              className="absolute inset-0 cursor-pointer bg-transparent border-0 p-0 m-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={acknowledgeWalkthrough}
+            />
+            {navHighlightRect && (
+              <>
+                <motion.div
+                  className="pointer-events-none fixed z-[72] rounded-2xl border-2 border-spring-400/80 shadow-[0_0_30px_rgba(219,230,76,0.45)]"
+                  style={{
+                    top: Math.max(navHighlightRect.top - 52, 8),
+                    left: Math.max(navHighlightRect.left - 12, 12),
+                    width: navHighlightRect.width - 200,
+                    height: navHighlightRect.height + 140,
+                    boxShadow: '0 0 0 9999px rgba(1, 15, 24, 0.68)'
+                  }}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                />
+              </>
+            )}
+            <motion.div
+              role="dialog"
+              aria-modal="true"
+              className="relative z-[74] max-w-4xl lg:max-w-5xl mx-auto w-full bg-white/95 backdrop-blur-xl border border-brand-50 shadow-[0_25px_60px_rgba(0,0,0,0.15)] rounded-3xl p-6 sm:p-8"
+              initial={{ opacity: 0, y: 20, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.98 }}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="h-10 w-10 rounded-2xl bg-brand-50 text-brand-700 flex items-center justify-center font-semibold">i</div>
+                <div>
+                  <p className="text-xs uppercase tracking-[0.3em] text-brand-500 font-semibold">Walkthrough demo</p>
+                  <h3 className="text-lg sm:text-xl font-semibold text-midnight-900">Welcome to the Notary AI</h3>
+                </div>
+              </div>
+              <p className="text-midnight-700 text-sm sm:text-base mb-3">
+                This two-day demo was built for a potential client to show how businesses and notaries can move every legalization task out of scattered emails and into one clean flow.
+              </p>
+              <p className="text-midnight-700 text-sm sm:text-base mb-4">
+                Upload anything, watch the automation steps, and see how the platform keeps each handoff visible while you explore.
+              </p>
+              <div className="mb-6">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-midnight-500 mb-2">Three workflows</div>
+                <div className="grid gap-3 sm:grid-cols-3">
+                  {[
+                    {
+                      label: 'Individual',
+                      badgeClass: 'bg-gradient-to-r from-brand-800 via-brand-700 to-brand-600 text-white shadow-lg shadow-brand-900/30 border border-brand-500/60',
+                      desc: 'Upload a single document, get instant routing, and follow every notarize or attest step.'
+                    },
+                    {
+                      label: 'Corporate',
+                      badgeClass: 'bg-gradient-to-r from-nuit-800 via-nuit-700 to-nuit-600 text-spring-100 shadow-lg shadow-nuit-900/30 border border-nuit-500/60',
+                      desc: 'Handle batches, auto-classify docs, and approve services for the whole company in minutes.'
+                    },
+                    {
+                      label: 'Notary',
+                      badgeClass: 'bg-gradient-to-r from-midnight-900 via-midnight-800 to-midnight-700 text-brand-100 shadow-lg shadow-midnight-900/30 border border-midnight-600/60',
+                      desc: 'See queued jobs, AI verifications, and ledgers so providers deliver quickly and stay aligned.'
+                    }
+                  ].map(flow => (
+                    <div key={flow.label} className="rounded-2xl border border-midnight-200/70 bg-white/90 p-4 shadow-[0_12px_30px_rgba(0,0,0,0.08)]">
+                      <div className={`inline-flex items-center justify-center rounded-2xl px-4 py-1.5 text-xs font-semibold tracking-wide uppercase ${flow.badgeClass}`}>
+                        {flow.label}
+                      </div>
+                      <p className="mt-3 text-sm text-midnight-700 leading-snug">{flow.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <ul className="space-y-3 text-sm text-midnight-700 mb-6">
+                <li className="flex gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-full bg-brand-500"></span>
+                  <span>Use the highlighted tabs on the left side of the nav bar whenever you need to swap between Individual, Corporate, or Notary journeys.</span>
+                </li>
+              </ul>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
+                <button
+                  onClick={acknowledgeWalkthrough}
+                  className="w-full sm:w-auto px-6 py-3 rounded-2xl bg-brand-600 text-white font-semibold shadow-[0_8px_20px_rgba(0,128,76,0.18)] hover:bg-brand-500 transition-colors duration-200"
+                >
+                  Understood
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Main Content Container */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8 relative z-10">
@@ -179,7 +335,7 @@ export default function NotaryAIHome() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-midnight-900 mb-2">Welcome, Fahad.</h1>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-midnight-900 mb-2">Welcome, Kevin.</h1>
           <p className="text-base sm:text-lg text-midnight-600">How can we help today?</p>
         </motion.div>
 

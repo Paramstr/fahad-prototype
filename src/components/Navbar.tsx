@@ -5,7 +5,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 
-export default function Navbar() {
+interface NavbarProps {
+  forceModeDropdown?: boolean;
+  onInfoClick?: () => void;
+}
+
+export default function Navbar({ forceModeDropdown = false, onInfoClick }: NavbarProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
@@ -24,6 +29,12 @@ export default function Navbar() {
       setSelectedMode('Individual');
     }
   }, [pathname]);
+
+  useEffect(() => {
+    if (forceModeDropdown) {
+      setIsDropdownOpen(true);
+    }
+  }, [forceModeDropdown]);
 
   const handleModeChange = (mode: string) => {
     setSelectedMode(mode);
@@ -56,7 +67,7 @@ export default function Navbar() {
         <div className="hidden md:grid grid-cols-3 items-center h-16">
           
           {/* Left Section: Logo, Name, and Mode Dropdown */}
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-6" id="navbar-mode-switch">
             {/* Logo and Company Name */}
             <Link href={selectedMode === 'Corporate' ? '/corporate' : selectedMode === 'Notary' ? '/notary' : '/'} className="flex items-center space-x-4">
               <div className="flex-shrink-0">
@@ -75,84 +86,96 @@ export default function Navbar() {
               <h1 className="text-xl font-semibold text-white">Notary AI</h1>
             </Link>
 
-            {/* Mode Dropdown */}
-            <div className="relative">
-              <motion.button
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center space-x-2 px-3 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors duration-200 text-sm font-medium text-white backdrop-blur-sm"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <span>{selectedMode}</span>
-                <motion.svg 
-                  className="h-4 w-4"
-                  animate={{ rotate: isDropdownOpen ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
+            {/* Mode Dropdown + Info */}
+            <div className="flex items-center space-x-3">
+              <div className="relative">
+                <motion.button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="flex items-center space-x-2 px-3 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors duration-200 text-sm font-medium text-white backdrop-blur-sm"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </motion.svg>
-              </motion.button>
-
-              <AnimatePresence>
-                {isDropdownOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                  <span>{selectedMode}</span>
+                  <motion.svg
+                    className="h-4 w-4"
+                    animate={{ rotate: isDropdownOpen ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute top-full left-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-10"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
-                    <button
-                      onClick={() => handleModeChange('Individual')}
-                      className={`w-full text-left px-4 py-2 text-sm hover:bg-praxeti-100 transition-colors duration-150 ${
-                        selectedMode === 'Individual' 
-                          ? 'text-brand-600 bg-brand-50 font-medium' 
-                          : 'text-midnight-900'
-                      }`}
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </motion.svg>
+                </motion.button>
+
+                <AnimatePresence>
+                  {isDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-full left-0 mt-2 w-44 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-10"
                     >
-                      <div className="flex items-center space-x-2">
-                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                        <span>Individual</span>
-                      </div>
-                    </button>
-                    <button
-                      onClick={() => handleModeChange('Corporate')}
-                      className={`w-full text-left px-4 py-2 text-sm hover:bg-praxeti-100 transition-colors duration-150 ${
-                        selectedMode === 'Corporate' 
-                          ? 'text-brand-600 bg-brand-50 font-medium' 
-                          : 'text-midnight-900'
-                      }`}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                        </svg>
-                        <span>Corporate</span>
-                      </div>
-                    </button>
-                    <button
-                      onClick={() => handleModeChange('Notary')}
-                      className={`w-full text-left px-4 py-2 text-sm hover:bg-praxeti-100 transition-colors duration-150 ${
-                        selectedMode === 'Notary' 
-                          ? 'text-brand-600 bg-brand-50 font-medium' 
-                          : 'text-midnight-900'
-                      }`}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                        </svg>
-                        <span>Notary</span>
-                      </div>
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                      {[
+                        {
+                          key: 'Individual',
+                          icon: (
+                            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                          ),
+                        },
+                        {
+                          key: 'Corporate',
+                          icon: (
+                            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                          ),
+                        },
+                        {
+                          key: 'Notary',
+                          icon: (
+                            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                          ),
+                        },
+                      ].map((option) => (
+                        <button
+                          key={option.key}
+                          onClick={() => handleModeChange(option.key)}
+                          className={`w-full text-left px-4 py-2 text-sm hover:bg-praxeti-100 transition-colors duration-150 ${
+                            selectedMode === option.key ? 'text-brand-600 bg-brand-50 font-medium' : 'text-midnight-900'
+                          }`}
+                        >
+                          <div className="flex items-center space-x-2">
+                            {option.icon}
+                            <span>{option.key}</span>
+                          </div>
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+              {onInfoClick && (
+                <motion.button
+                  type="button"
+                  aria-label="Show walkthrough info"
+                  onClick={onInfoClick}
+                  className="p-2 rounded-full bg-white/15 text-white/90 hover:bg-white/25 transition-colors duration-200 backdrop-blur-sm border border-white/20"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  animate={{ boxShadow: ['0 0 0 0 rgba(255,255,255,0)', '0 0 12px 4px rgba(255,255,255,0.22)', '0 0 0 0 rgba(255,255,255,0)'] }}
+                  transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </motion.button>
+              )}
             </div>
           </div>
 
@@ -220,11 +243,11 @@ export default function Navbar() {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
               >
-                <span className="text-white text-sm font-medium">F</span>
+                <span className="text-white text-sm font-medium">K</span>
               </motion.div>
               <div className="text-sm">
-                <div className="font-medium text-white">Fahad</div>
-                <div className="text-white/80">Law Firm</div>
+                <div className="font-medium text-white">Kevin</div>
+                <div className="text-white/80">Concord Visa</div>
               </div>
             </div>
           </div>
@@ -330,6 +353,21 @@ export default function Navbar() {
                 )}
               </AnimatePresence>
             </div>
+            {onInfoClick && (
+              <motion.button
+                onClick={onInfoClick}
+                aria-label="Show walkthrough info"
+                className="p-2 rounded-full bg-white/15 text-white/90 hover:bg-white/25 transition-colors duration-200 backdrop-blur-sm border border-white/20"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                animate={{ boxShadow: ['0 0 0 0 rgba(255,255,255,0)', '0 0 10px 3px rgba(255,255,255,0.22)', '0 0 0 0 rgba(255,255,255,0)'] }}
+                transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </motion.button>
+            )}
           </div>
 
           {/* Right: Search Icon and Hamburger Menu */}
